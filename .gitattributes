@@ -1,0 +1,2 @@
+# Force GitHub linguist to detect all PHP files correctly
+*.php linguist-language=PHP
