@@ -9,28 +9,32 @@
 <body>
     <nav class="navbar">
         <div class="container">
-            <div class="logo">
-                <a href="index.php">EWU Lost&Found</a>
-            </div>
+            <a href="index.php" class="logo">
+                <div class="logo-icon">🏠</div>
+                <div class="logo-text">
+                    <span>EWU</span>
+                    LOST &<br>FOUND
+                </div>
+            </a>
             <ul class="nav-links">
                 <li><a href="index.php">Home</a></li>
-                <li><a href="lost.php" class="active">Latest Items</a></li>
                 <li><a href="#">My Account</a></li>
-                <!-- CTA -->
-                <li><a href="post_item.php" class="btn-pill">Report Lost Item</a></li>
+                <li><button class="theme-toggle" title="Toggle theme">🌙</button></li>
+                <li><a href="post_item.php" class="btn-pill">Report Item</a></li>
             </ul>
         </div>
     </nav>
 
     <div class="container" style="padding-top: 3rem; padding-bottom: 5rem;">
-        <div class="section-header" style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 2rem;">
+        <div class="section-header" style="margin-bottom: 2rem;">
             <div>
                 <h2>Lost Items Database</h2>
-                <p style="color: var(--text-grey); margin-top: 0.5rem;">Browsable list of all items reported missing.</p>
+                <p>Browsable list of all items reported missing.</p>
             </div>
             
             <div class="search-wrapper" style="margin:0; width:300px;">
-                <input type="text" class="glass-input" placeholder="Search items...">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Search items..." style="padding: 0.75rem 1rem 0.75rem 2.5rem;">
             </div>
         </div>
 
@@ -46,28 +50,31 @@
                     while($row = $result->fetch_assoc()) {
                         $img_src = !empty($row['image']) ? 'uploads/' . htmlspecialchars($row['image']) : '';
                         ?>
-                        <div class="item-card glass-card">
+                        <a href="item.php?type=lost&id=<?php echo $row['id']; ?>" class="item-card">
                             <div class="card-img">
                                 <?php if($img_src): ?>
-                                    <img src="<?php echo $img_src; ?>" alt="Item Image">
+                                    <img src="<?php echo $img_src; ?>" alt="<?php echo htmlspecialchars($row['item_name']); ?>">
                                 <?php else: ?>
-                                    <div style="height:100%; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.3);">No Image</div>
+                                    <div style="height:100%; display:flex; align-items:center; justify-content:center; color:var(--text-muted);">No Image</div>
                                 <?php endif; ?>
+                                <span class="status-badge status-lost">LOST</span>
                             </div>
-                            <span class="status-badge status-lost">Lost</span>
-                            <h3 class="card-title" style="margin-top:0.5rem;"><?php echo htmlspecialchars($row['item_name']); ?></h3>
-                            <span class="card-location">Location: <?php echo htmlspecialchars($row['last_location']); ?></span>
-                            <span class="card-location" style="margin-top:0;">Date: <?php echo date('M d, Y', strtotime($row['date_lost'])); ?></span>
-                            
-                            <div style="margin-top: 1rem;">
-                                <a href="item.php?type=lost&id=<?php echo $row['id']; ?>" class="btn-pill" style="font-size:0.8rem; padding:0.5rem 1rem;">Details</a>
+                            <div class="card-content">
+                                <div class="card-category"><?php echo htmlspecialchars($row['category']); ?></div>
+                                <h3 class="card-title"><?php echo htmlspecialchars($row['item_name']); ?></h3>
+                                <div class="card-meta">
+                                    <span class="card-location"><?php echo htmlspecialchars($row['last_location']); ?></span>
+                                    <span class="card-date"><?php echo date('d F, Y', strtotime($row['date_lost'])); ?></span>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                         <?php
                     }
                 } else {
-                    echo "<div class='glass-card' style='grid-column: 1/-1; text-align:center; padding: 4rem; color: var(--text-grey);'><h3>No lost items reported yet.</h3></div>";
+                    echo "<div class='empty-state'><h3>No lost items reported yet.</h3></div>";
                 }
+            } else {
+                echo "<div class='empty-state'><h3>Database connection error.</h3></div>";
             }
             ?>
         </div>
