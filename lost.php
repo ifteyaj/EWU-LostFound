@@ -26,17 +26,72 @@ requireLogin();
                 <p>Browsable list of all items reported missing.</p>
             </div>
             
-            <div class="search-wrapper" style="margin:0; width:300px;">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="search-input" placeholder="Search items..." style="padding: 0.75rem 1rem 0.75rem 2.5rem;">
-            </div>
+            <form action="" method="GET" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <select name="category" class="form-control" style="width: auto; padding: 0.75rem;">
+                    <option value="">All Categories</option>
+                    <?php 
+                    $selectedCat = $_GET['category'] ?? '';
+                    foreach (ITEM_CATEGORIES as $cat): ?>
+                        <option value="<?php echo htmlspecialchars($cat); ?>" <?php echo ($selectedCat == $cat) ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($cat); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                
+                <div class="search-wrapper" style="margin:0; width:250px;">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" name="search" class="search-input" value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>" placeholder="Search items..." style="padding: 0.75rem 1rem 0.75rem 2.5rem;">
+                </div>
+                
+                <button type="submit" class="btn-pill btn-primary" style="padding: 0.75rem 1.5rem; border-radius: 12px; font-size: 0.9rem;">Filter</button>
+                
+                <?php if(!empty($_GET['search']) || !empty($_GET['category'])): ?>
+                    <a href="lost.php" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">Clear</a>
+                <?php endif; ?>
+            </form>
         </div>
 
         <div class="items-grid">
             <?php
             if ($conn && !$conn->connect_error) {
-                $sql = "SELECT * FROM lost_items ORDER BY created_at DESC";
-                $result = $conn->query($sql);
+                // Base query
+                $sql = "SELECT * FROM lost_items";
+                $conditions = [];
+                $params = [];
+                $types = "";
+
+                // Filter by Category
+                if (!empty($_GET['category'])) {
+                    $conditions[] = "category = ?";
+                    $params[] = $_GET['category'];
+                    $types .= "s";
+                }
+
+                // Search by Text
+                if (!empty($_GET['search'])) {
+                    $searchTerm = "%" . $_GET['search'] . "%";
+                    $conditions[] = "(item_name LIKE ? OR description LIKE ? OR last_location LIKE ?)";
+                    $params[] = $searchTerm;
+                    $params[] = $searchTerm;
+                    $params[] = $searchTerm;
+                    $types .= "sss";
+                }
+
+                // Combine conditions
+                if (!empty($conditions)) {
+                    $sql .= " WHERE " . implode(" AND ", $conditions);
+                }
+
+                $sql .= " ORDER BY created_at DESC";
+
+                // Prepare statement
+                $stmt = $conn->prepare($sql);
+                if (!empty($params)) {
+                    $stmt->bind_param($types, ...$params);
+                }
+                
+                $stmt->execute();
+                $result = $stmt->get_result();
 
                 if ($result && $result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
