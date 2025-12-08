@@ -5,6 +5,9 @@
  */
 require_once 'init.php';
 
+// Require login to view this page
+requireLogin();
+
 if (!isset($_GET['id']) || !isset($_GET['type'])) {
     header("Location: index.php");
     exit();

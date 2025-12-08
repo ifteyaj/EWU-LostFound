@@ -102,7 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Clear CSRF token after successful submission
         unset($_SESSION['csrf_token']);
-        header("Location: ../lost.php?status=success");
+        header("Location: " . APP_URL . "/lost.php?status=success");
         exit();
     } else {
         logError("Database error on lost item insert", 'ERROR', ['error' => $stmt->error]);

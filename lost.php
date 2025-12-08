@@ -3,6 +3,9 @@
  * Lost Items Listing Page
  */
 require_once 'init.php';
+
+// Require login to view this page
+requireLogin();
 ?>
 <!DOCTYPE html>
 <html lang="en">
