@@ -1,5 +1,9 @@
 <?php
-include 'config/db.php';
+/**
+ * Item Detail Page
+ * Displays details of a single lost or found item
+ */
+require_once 'init.php';
 
 if (!isset($_GET['id']) || !isset($_GET['type'])) {
     header("Location: index.php");
@@ -8,6 +12,12 @@ if (!isset($_GET['id']) || !isset($_GET['type'])) {
 
 $id = intval($_GET['id']);
 $type = $_GET['type'];
+
+// Validate type
+if (!in_array($type, ['lost', 'found'])) {
+    showError(404, "Invalid item type.");
+}
+
 $table = ($type == 'found') ? 'found_items' : 'lost_items';
 $badge_class = ($type == 'found') ? 'status-found' : 'status-lost';
 $badge_text = ($type == 'found') ? 'FOUND' : 'LOST';
@@ -23,7 +33,7 @@ if ($conn && !$conn->connect_error) {
 }
 
 if (!$item) {
-    die("Item not found or database error.");
+    showError(404, "Item not found.");
 }
 
 $img_src = !empty($item['image']) ? 'uploads/' . htmlspecialchars($item['image']) : '';
@@ -39,16 +49,7 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <ul class="nav-links">
-                <li class="logo-item"><a href="index.php" class="logo"><img src="assets/img/logo.png" alt="EWU Lost & Found"></a></li>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="#">My Account</a></li>
-                <li><a href="post_item.php" class="btn-pill">Report Item</a></li>
-            </ul>
-        </div>
-    </nav>
+    <?php include 'includes/navbar.php'; ?>
 
     <div class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
         <a href="javascript:history.back()" class="back-link">

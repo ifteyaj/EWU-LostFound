@@ -1,22 +1,20 @@
+<?php
+/**
+ * Found Items Listing Page
+ */
+require_once 'init.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse found items at East West University. Claim your lost belongings today.">
     <title>Found Items - EWU Lost & Found</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <ul class="nav-links">
-                <li class="logo-item"><a href="index.php" class="logo"><img src="assets/img/logo.png" alt="EWU Lost & Found"></a></li>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="#">My Account</a></li>
-                <li><a href="post_item.php" class="btn-pill">Report Item</a></li>
-            </ul>
-        </div>
-    </nav>
+    <?php include 'includes/navbar.php'; ?>
 
     <div class="container" style="padding-top: 3rem; padding-bottom: 5rem;">
         <div class="section-header" style="margin-bottom: 2rem;">
@@ -33,8 +31,6 @@
 
         <div class="items-grid">
             <?php
-            include 'config/db.php';
-            
             if ($conn && !$conn->connect_error) {
                 $sql = "SELECT * FROM found_items ORDER BY created_at DESC";
                 $result = $conn->query($sql);

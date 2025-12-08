@@ -1,11 +1,19 @@
 <?php
-session_start();
+/**
+ * Report Item Page
+ * Form for reporting lost or found items
+ */
 
-// Generate CSRF token if not exists
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-$csrf_token = $_SESSION['csrf_token'];
+require_once 'init.php';
+
+// Require user to be logged in
+requireLogin();
+
+// Get current user data
+$currentUser = getCurrentUser();
+
+// Generate CSRF token using security module
+$csrf_token = generateCsrfToken();
 
 // Error messages mapping
 $error_messages = [
@@ -13,10 +21,13 @@ $error_messages = [
     'missing_fields' => 'Please fill in all required fields.',
     'invalid_email' => 'Please enter a valid email address.',
     'invalid_date' => 'Please enter a valid date.',
+    'invalid_category' => 'Please select a valid category.',
     'file_too_large' => 'Image file is too large. Maximum size is 2MB.',
     'invalid_file_type' => 'Invalid file type. Only JPG, PNG, GIF, WEBP are allowed.',
+    'invalid_file' => 'Invalid file. Please check the file type and size.',
     'upload_failed' => 'Failed to upload image. Please try again.',
-    'database_error' => 'Database error occurred. Please try again later.'
+    'database_error' => 'Database error occurred. Please try again later.',
+    'rate_limit' => 'Too many requests. Please wait a moment and try again.'
 ];
 
 $error = isset($_GET['error']) && isset($error_messages[$_GET['error']]) 
@@ -25,7 +36,7 @@ $error = isset($_GET['error']) && isset($error_messages[$_GET['error']])
 
 // Handle form submission - Mapping inputs to handlers
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $type = $_POST['type'];
+    $type = $_POST['type'] ?? 'lost';
     
     // Common mappings
     if ($type == 'lost') {
@@ -72,16 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <ul class="nav-links">
-                <li class="logo-item"><a href="index.php" class="logo"><img src="assets/img/logo.png" alt="EWU Lost & Found"></a></li>
-                <li><a href="index.php">Home</a></li>
-                <li><a href="#">My Account</a></li>
-                <li><a href="post_item.php" class="btn-pill">Report Item</a></li>
-            </ul>
-        </div>
-    </nav>
+    <?php include 'includes/navbar.php'; ?>
 
     <div class="container">
         <div class="form-card">
@@ -156,15 +158,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="form-grid">
                         <div class="form-group">
                             <label>YOUR NAME</label>
-                            <input type="text" name="contact_name" class="form-control" placeholder="Full Name" required>
+                            <input type="text" name="contact_name" class="form-control" value="<?php echo htmlspecialchars($currentUser['full_name'] ?? ''); ?>" placeholder="Full Name" required readonly>
                         </div>
                         <div class="form-group">
                             <label>STUDENT ID</label>
-                            <input type="text" name="contact_id" class="form-control" placeholder="e.g. 2020-3-60-001" required>
+                            <input type="text" name="contact_id" class="form-control" value="<?php echo htmlspecialchars($currentUser['student_id'] ?? ''); ?>" placeholder="e.g. 2020-3-60-001" required readonly>
                         </div>
                         <div class="form-group full-width">
                             <label>EMAIL</label>
-                            <input type="email" name="email" class="form-control" placeholder="your.email@ewubd.edu" required>
+                            <input type="email" name="email" class="form-control" value="<?php echo htmlspecialchars($currentUser['email'] ?? ''); ?>" placeholder="your.email@ewubd.edu" required readonly>
                         </div>
                     </div>
                 </div>

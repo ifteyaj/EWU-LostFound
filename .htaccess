@@ -1,0 +1,22 @@
+# EWU Lost & Found - Apache Configuration
+
+# Prevent access to sensitive files
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Protect config files
+<FilesMatch "\.(env|sql|md|log)$">
+    Require all denied
+</FilesMatch>
+
+# Custom error pages
+ErrorDocument 404 /EWU-LostFound/errors/404.php
+ErrorDocument 403 /EWU-LostFound/errors/403.php
+ErrorDocument 500 /EWU-LostFound/errors/500.php
+
+# Prevent directory browsing
+Options -Indexes
+
+# Set default charset
+AddDefaultCharset UTF-8
