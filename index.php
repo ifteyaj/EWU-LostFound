@@ -15,7 +15,6 @@
             <ul class="nav-links">
                 <li><a href="index.php" class="active">Home</a></li>
                 <li><a href="#">My Account</a></li>
-                <li><button class="theme-toggle" title="Toggle theme">🌙</button></li>
                 <li><a href="post_item.php" class="btn-pill">Report Item</a></li>
             </ul>
         </div>

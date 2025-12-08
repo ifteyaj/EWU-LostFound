@@ -47,7 +47,6 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
             <ul class="nav-links">
                 <li><a href="index.php">Home</a></li>
                 <li><a href="#">My Account</a></li>
-                <li><button class="theme-toggle" title="Toggle theme">🌙</button></li>
                 <li><a href="post_item.php" class="btn-pill">Report Item</a></li>
             </ul>
         </div>
