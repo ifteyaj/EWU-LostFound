@@ -74,10 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <nav class="navbar">
         <div class="container">
-            <a href="index.php" class="logo">
-                <img src="assets/img/logo.png" alt="EWU Lost & Found">
-            </a>
             <ul class="nav-links">
+                <li class="logo-item"><a href="index.php" class="logo"><img src="assets/img/logo.png" alt="EWU Lost & Found"></a></li>
                 <li><a href="index.php">Home</a></li>
                 <li><a href="#">My Account</a></li>
                 <li><a href="post_item.php" class="btn-pill">Report Item</a></li>

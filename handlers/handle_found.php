@@ -1,6 +1,6 @@
 <?php
-session_start();
-include '../config/db.php';
+// Session already started in post_item.php
+include 'config/db.php';
 
 // Allowed image types
 define('ALLOWED_TYPES', ['image/jpeg', 'image/png', 'image/gif', 'image/webp']);
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     // Image Upload with validation
-    $target_dir = "../uploads/";
+    $target_dir = "uploads/";
     $image_name = "";
     
     if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {

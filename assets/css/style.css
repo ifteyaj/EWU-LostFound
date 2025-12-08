@@ -38,8 +38,7 @@
 }
 
 body {
-    background-color: var(--bg-light);
-    background-image: var(--bg-gradient);
+    background-color: #ffffff;
     color: var(--text-dark);
     font-family: var(--font-main);
     line-height: 1.6;
@@ -85,46 +84,75 @@ img {
 
 /* Navbar */
 .navbar {
-    position: sticky;
-    top: 0;
+    position: fixed;
+    top: 1.5rem;
+    left: 0;
+    right: 0;
     z-index: 1000;
-    padding: 1rem 0;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border-light);
+    padding: 0;
+    background: transparent;
 }
 
 .navbar .container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-}
-
-.logo img {
-    height: 50px;
-    width: auto;
 }
 
 .nav-links {
     display: flex;
-    gap: 2rem;
+    gap: 2.5rem;
     align-items: center;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(16px);
+    padding: 0.4rem 2rem;
+    padding-left: 0.4rem;
+    border-radius: 60px;
+    box-shadow: 0 8px 32px rgba(30, 58, 95, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    min-width: 1000px;
+    justify-content: space-between;
+}
+
+.nav-links li {
+    list-style: none;
+}
+
+.logo-item {
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+}
+
+.logo-item .logo {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin-left: 0.5rem;
+}
+
+.logo-item .logo:hover {
+    background: transparent;
+}
+
+.logo-item .logo img {
+    height: 42px;
+    width: auto;
 }
 
 .nav-links a {
     color: var(--text-secondary);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 500;
+    padding: 0.6rem 1.25rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
 }
 
 .nav-links a:hover,
 .nav-links a.active {
     color: var(--primary-navy);
+    background: rgba(30, 58, 95, 0.05);
 }
 
 .theme-toggle {
@@ -189,10 +217,10 @@ img {
 
 /* Hero Section */
 .hero {
-    padding: 6rem 0 5rem;
+    padding: 10rem 0 6rem;
     text-align: center;
     position: relative;
-    background: linear-gradient(rgba(30, 58, 95, 0.85), rgba(30, 58, 95, 0.75)), url('../img/hero-bg.jpg');
+    background: url('../img/hero-bg.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
