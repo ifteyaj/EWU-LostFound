@@ -1,5 +1,29 @@
 <?php
-// Validating and Mapping inputs to legacy handlers
+session_start();
+
+// Generate CSRF token if not exists
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+$csrf_token = $_SESSION['csrf_token'];
+
+// Error messages mapping
+$error_messages = [
+    'invalid_token' => 'Security validation failed. Please try again.',
+    'missing_fields' => 'Please fill in all required fields.',
+    'invalid_email' => 'Please enter a valid email address.',
+    'invalid_date' => 'Please enter a valid date.',
+    'file_too_large' => 'Image file is too large. Maximum size is 2MB.',
+    'invalid_file_type' => 'Invalid file type. Only JPG, PNG, GIF, WEBP are allowed.',
+    'upload_failed' => 'Failed to upload image. Please try again.',
+    'database_error' => 'Database error occurred. Please try again later.'
+];
+
+$error = isset($_GET['error']) && isset($error_messages[$_GET['error']]) 
+    ? $error_messages[$_GET['error']] 
+    : null;
+
+// Handle form submission - Mapping inputs to handlers
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $type = $_POST['type'];
     
@@ -30,17 +54,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         .toggle-switch input[type="radio"] {
             display: none;
         }
+        .error-banner {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+        }
+        .error-banner::before {
+            content: "⚠️";
+        }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="container">
             <a href="index.php" class="logo">
-                <div class="logo-icon">🏠</div>
-                <div class="logo-text">
-                    <span>EWU</span>
-                    LOST &<br>FOUND
-                </div>
+                <img src="assets/img/logo.png" alt="EWU Lost & Found">
             </a>
             <ul class="nav-links">
                 <li><a href="index.php">Home</a></li>
@@ -66,7 +101,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
             
+            <?php if ($error): ?>
+                <div class="error-banner"><?php echo htmlspecialchars($error); ?></div>
+            <?php endif; ?>
+            
             <form action="post_item.php" method="POST" enctype="multipart/form-data" id="reportForm">
+                <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
                 <input type="hidden" name="type" id="itemType" value="lost">
                 
                 <div class="form-grid">
@@ -101,15 +141,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     <div class="form-group full-width">
                         <label>DESCRIPTION</label>
-                        <button type="button" class="ai-btn">✨ AI Auto-Fill</button>
-                        <textarea name="description" class="form-control" placeholder="Brief details..."></textarea>
+                        <textarea name="description" class="form-control" placeholder="Brief details about the item..." required></textarea>
                     </div>
 
                     <div class="form-group full-width">
                         <label class="upload-area" for="imageUpload">
                             <div class="upload-icon">📷</div>
-                            <div class="upload-text">Upload Photo</div>
-                            <input type="file" name="image" id="imageUpload" accept="image/*">
+                            <div class="upload-text">Upload Photo (Max 2MB)</div>
+                            <input type="file" name="image" id="imageUpload" accept="image/jpeg,image/png,image/gif,image/webp">
                         </label>
                     </div>
                 </div>
@@ -135,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <div class="form-footer">
                     <a href="index.php" class="btn-cancel">Cancel</a>
-                    <button type="submit" class="btn-pill btn-lg">Submit Report</button>
+                    <button type="submit" class="btn-pill btn-lg" id="submitBtn">Submit Report</button>
                 </div>
             </form>
         </div>
@@ -156,12 +195,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
 
-        // Show selected file name
+        // Show selected file name and validate size
         document.getElementById('imageUpload').addEventListener('change', function(e) {
-            const fileName = e.target.files[0]?.name;
-            if (fileName) {
-                document.querySelector('.upload-text').textContent = fileName;
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('File is too large. Maximum size is 2MB.');
+                    this.value = '';
+                    return;
+                }
+                document.querySelector('.upload-text').textContent = file.name;
             }
+        });
+
+        // Form submission loading state
+        document.getElementById('reportForm').addEventListener('submit', function() {
+            const btn = document.getElementById('submitBtn');
+            btn.textContent = 'Submitting...';
+            btn.disabled = true;
         });
     </script>
 </body>

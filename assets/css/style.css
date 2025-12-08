@@ -103,33 +103,11 @@ img {
 .logo {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
 }
 
-.logo-icon {
-    width: 40px;
-    height: 40px;
-    background: var(--primary-navy);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.2rem;
-}
-
-.logo-text {
-    font-family: var(--font-main);
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--primary-navy);
-    line-height: 1.2;
-}
-
-.logo-text span {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 500;
+.logo img {
+    height: 50px;
+    width: auto;
 }
 
 .nav-links {
@@ -211,9 +189,13 @@ img {
 
 /* Hero Section */
 .hero {
-    padding: 5rem 0 4rem;
+    padding: 6rem 0 5rem;
     text-align: center;
     position: relative;
+    background: linear-gradient(rgba(30, 58, 95, 0.85), rgba(30, 58, 95, 0.75)), url('../img/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 .hero h1 {
@@ -223,16 +205,16 @@ img {
     font-style: italic;
     margin-bottom: 1.5rem;
     line-height: 1.2;
-    color: var(--text-dark);
+    color: var(--white);
 }
 
 .hero h1 .highlight {
-    color: var(--primary-navy);
+    color: #fbbf24;
 }
 
 .hero p {
     font-size: 1.1rem;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.85);
     max-width: 550px;
     margin: 0 auto 2.5rem;
     line-height: 1.7;

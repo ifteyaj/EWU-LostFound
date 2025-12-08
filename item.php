@@ -42,11 +42,7 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
     <nav class="navbar">
         <div class="container">
             <a href="index.php" class="logo">
-                <div class="logo-icon">🏠</div>
-                <div class="logo-text">
-                    <span>EWU</span>
-                    LOST &<br>FOUND
-                </div>
+                <img src="assets/img/logo.png" alt="EWU Lost & Found">
             </a>
             <ul class="nav-links">
                 <li><a href="index.php">Home</a></li>
