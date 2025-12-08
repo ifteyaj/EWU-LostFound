@@ -96,15 +96,39 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
                 <div class="detail-actions">
                     <div class="detail-actions-label">ACTIONS</div>
                     <div class="detail-buttons">
-                        <?php if($type == 'lost'): ?>
-                            <a href="mailto:<?php echo htmlspecialchars($item['email']); ?>?subject=Found Your Item: <?php echo urlencode($item['item_name']); ?>" class="btn-pill btn-lg">
-                                I Found This!
+                        <?php 
+                        $currentUserId = getCurrentUserId();
+                        $isOwner = ($item['user_id'] == $currentUserId);
+                        
+                        if ($isOwner): 
+                        ?>
+                            <!-- Owner Actions -->
+                            <a href="handlers/manage_item.php?action=delete&type=<?php echo $type; ?>&id=<?php echo $item['id']; ?>&csrf_token=<?php echo generateCsrfToken(); ?>" 
+                               onclick="return confirm('Are you sure you want to delete this report? This action cannot be undone.');"
+                               class="btn-pill btn-lg" style="background-color: var(--status-lost-bg); border-color: var(--status-lost-bg); color: white;">
+                                Delete Report
                             </a>
+                            
+                            <?php if($item['status'] != 'resolved'): ?>
+                                <a href="handlers/manage_item.php?action=resolve&type=<?php echo $type; ?>&id=<?php echo $item['id']; ?>&csrf_token=<?php echo generateCsrfToken(); ?>"
+                                   class="btn-pill btn-lg" style="background-color: var(--status-found-bg); border-color: var(--status-found-bg); color: white;">
+                                    Mark as <?php echo ($type == 'lost') ? 'Found' : 'Returned'; ?>
+                                </a>
+                            <?php endif; ?>
+                            
                         <?php else: ?>
-                            <a href="mailto:<?php echo htmlspecialchars($item['email']); ?>?subject=Claiming Lost Item: <?php echo urlencode($item['item_name']); ?>" class="btn-pill btn-lg">
-                                This is Mine!
-                            </a>
+                            <!-- Visitor Actions -->
+                            <?php if($type == 'lost'): ?>
+                                <a href="mailto:<?php echo htmlspecialchars($item['email']); ?>?subject=Found Your Item: <?php echo urlencode($item['item_name']); ?>" class="btn-pill btn-lg">
+                                    I Found This!
+                                </a>
+                            <?php else: ?>
+                                <a href="mailto:<?php echo htmlspecialchars($item['email']); ?>?subject=Claiming Lost Item: <?php echo urlencode($item['item_name']); ?>" class="btn-pill btn-lg">
+                                    This is Mine!
+                                </a>
+                            <?php endif; ?>
                         <?php endif; ?>
+
                         <button class="btn-pill btn-outline" onclick="navigator.share ? navigator.share({title: '<?php echo htmlspecialchars($item['item_name']); ?>', url: window.location.href}) : alert('Link copied!')">
                             Share
                         </button>

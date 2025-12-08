@@ -166,19 +166,19 @@ $user = getCurrentUser();
                                 <h3 class="card-title"><?php echo htmlspecialchars($item['item_name']); ?></h3>
                                 <div class="card-meta">
                                     <span class="card-date"><?php echo date('d M, Y', strtotime($item['date_lost'])); ?></span>
-                                    <span style="font-weight: 600; font-size: 0.8rem; text-transform:uppercase; color: <?php echo ($item['status'] == 'resolved') ? 'var(--status-found)' : 'var(--text-muted)'; ?>">
+                                    <span style="font-weight: 600; font-size: 0.8rem; text-transform:uppercase; color: <?php echo ($item['status'] == 'resolved') ? 'var(--status-found-bg)' : 'var(--text-muted)'; ?>">
                                         <?php echo htmlspecialchars($item['status']); ?>
                                     </span>
                                 </div>
                                 <div style="margin-top: 1rem; border-top: 1px solid var(--border-light); padding-top: 1rem; display: flex; gap: 0.5rem;">
-                                    <a href="handlers/manage_item.php?action=delete&type=lost&id=<?php echo $item['id']; ?>&csrf_token=<?php echo $_SESSION['csrf_token']; ?>" 
+                                    <a href="handlers/manage_item.php?action=delete&type=lost&id=<?php echo $item['id']; ?>&csrf_token=<?php echo generateCsrfToken(); ?>" 
                                        onclick="return confirm('Are you sure you want to delete this item?');"
-                                       class="btn-pill btn-outline" style="font-size: 0.8rem; padding: 0.5rem; color: var(--status-lost); border-color: var(--status-lost);">
+                                       class="btn-pill btn-outline" style="font-size: 0.8rem; padding: 0.5rem; color: var(--status-lost-bg); border-color: var(--status-lost-bg);">
                                         Delete
                                     </a>
                                     <?php if($item['status'] != 'resolved'): ?>
-                                    <a href="handlers/manage_item.php?action=resolve&type=lost&id=<?php echo $item['id']; ?>&csrf_token=<?php echo $_SESSION['csrf_token']; ?>"
-                                       class="btn-pill btn-outline" style="font-size: 0.8rem; padding: 0.5rem; color: var(--status-found); border-color: var(--status-found);">
+                                    <a href="handlers/manage_item.php?action=resolve&type=lost&id=<?php echo $item['id']; ?>&csrf_token=<?php echo generateCsrfToken(); ?>"
+                                       class="btn-pill btn-outline" style="font-size: 0.8rem; padding: 0.5rem; color: var(--status-found-bg); border-color: var(--status-found-bg);">
                                         Mark Found
                                     </a>
                                     <?php endif; ?>
@@ -204,19 +204,19 @@ $user = getCurrentUser();
                                 <h3 class="card-title"><?php echo htmlspecialchars($item['item_name']); ?></h3>
                                 <div class="card-meta">
                                     <span class="card-date"><?php echo date('d M, Y', strtotime($item['date_found'])); ?></span>
-                                    <span style="font-weight: 600; font-size: 0.8rem; text-transform:uppercase; color: <?php echo ($item['status'] == 'resolved') ? 'var(--status-found)' : 'var(--text-muted)'; ?>">
+                                    <span style="font-weight: 600; font-size: 0.8rem; text-transform:uppercase; color: <?php echo ($item['status'] == 'resolved') ? 'var(--status-found-bg)' : 'var(--text-muted)'; ?>">
                                         <?php echo htmlspecialchars($item['status']); ?>
                                     </span>
                                 </div>
                                 <div style="margin-top: 1rem; border-top: 1px solid var(--border-light); padding-top: 1rem; display: flex; gap: 0.5rem;">
-                                    <a href="handlers/manage_item.php?action=delete&type=found&id=<?php echo $item['id']; ?>&csrf_token=<?php echo $_SESSION['csrf_token']; ?>" 
+                                    <a href="handlers/manage_item.php?action=delete&type=found&id=<?php echo $item['id']; ?>&csrf_token=<?php echo generateCsrfToken(); ?>" 
                                        onclick="return confirm('Are you sure you want to delete this item?');"
-                                       class="btn-pill btn-outline" style="font-size: 0.8rem; padding: 0.5rem; color: var(--status-lost); border-color: var(--status-lost);">
+                                       class="btn-pill btn-outline" style="font-size: 0.8rem; padding: 0.5rem; color: var(--status-lost-bg); border-color: var(--status-lost-bg);">
                                         Delete
                                     </a>
                                     <?php if($item['status'] != 'resolved'): ?>
-                                    <a href="handlers/manage_item.php?action=resolve&type=found&id=<?php echo $item['id']; ?>&csrf_token=<?php echo $_SESSION['csrf_token']; ?>"
-                                       class="btn-pill btn-outline" style="font-size: 0.8rem; padding: 0.5rem; color: var(--status-found); border-color: var(--status-found);">
+                                    <a href="handlers/manage_item.php?action=resolve&type=found&id=<?php echo $item['id']; ?>&csrf_token=<?php echo generateCsrfToken(); ?>"
+                                       class="btn-pill btn-outline" style="font-size: 0.8rem; padding: 0.5rem; color: var(--status-found-bg); border-color: var(--status-found-bg);">
                                         Mark Returned
                                     </a>
                                     <?php endif; ?>

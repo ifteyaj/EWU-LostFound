@@ -117,14 +117,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="form-group">
                         <label>CATEGORY</label>
                         <select name="category" class="form-control" required>
-                            <option value="Electronics">⌨️ Electronics</option>
-                            <option value="Accessories">👜 Accessories</option>
-                            <option value="Documents">📄 Documents</option>
-                            <option value="Clothing">👕 Clothing</option>
-                            <option value="Books">📚 Books & Stationery</option>
-                            <option value="IDs">🪪 IDs & Cards</option>
-                            <option value="Keys">🔑 Keys</option>
-                            <option value="Other">📦 Other</option>
+                            <option value="" disabled selected>Select a Category</option>
+                            <?php foreach (ITEM_CATEGORIES as $cat): ?>
+                                <option value="<?php echo htmlspecialchars($cat); ?>"><?php echo htmlspecialchars($cat); ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
 

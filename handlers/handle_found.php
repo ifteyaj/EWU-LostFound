@@ -12,14 +12,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Rate limiting check
     if (!checkRateLimit()) {
         logActivity("Rate limit exceeded for found item submission", ['ip' => $_SERVER['REMOTE_ADDR']]);
-        header("Location: ../post_item.php?error=rate_limit");
+        header("Location: " . APP_URL . "/post_item.php?error=rate_limit");
         exit();
     }
     
     // CSRF Token Validation
     if (!isset($_POST['csrf_token']) || !validateCsrfToken($_POST['csrf_token'])) {
         logActivity("Invalid CSRF token on found item submission");
-        header("Location: ../post_item.php?error=invalid_token");
+        header("Location: " . APP_URL . "/post_item.php?error=invalid_token");
         exit();
     }
     
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $required = ['item_name', 'category', 'description', 'found_location', 'date_found', 'finder_name', 'finder_id', 'email'];
     foreach ($required as $field) {
         if (empty($_POST[$field])) {
-            header("Location: ../post_item.php?error=missing_fields");
+            header("Location: " . APP_URL . "/post_item.php?error=missing_fields");
             exit();
         }
     }
@@ -44,19 +44,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Validate email
     if (!isValidEmail($email)) {
-        header("Location: ../post_item.php?error=invalid_email");
+        header("Location: " . APP_URL . "/post_item.php?error=invalid_email");
         exit();
     }
     
     // Validate date format
     if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date_found)) {
-        header("Location: ../post_item.php?error=invalid_date");
+        header("Location: " . APP_URL . "/post_item.php?error=invalid_date");
         exit();
     }
     
     // Validate category
     if (!in_array($category, ITEM_CATEGORIES)) {
-        header("Location: ../post_item.php?error=invalid_category");
+        header("Location: " . APP_URL . "/post_item.php?error=invalid_category");
         exit();
     }
     
@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if (!empty($errors)) {
             logError("File upload validation failed", 'WARNING', ['errors' => $errors]);
-            header("Location: ../post_item.php?error=invalid_file");
+            header("Location: " . APP_URL . "/post_item.php?error=invalid_file");
             exit();
         }
         
@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if (!move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
             logError("Failed to move uploaded file", 'ERROR', ['target' => $target_file]);
-            header("Location: ../post_item.php?error=upload_failed");
+            header("Location: " . APP_URL . "/post_item.php?error=upload_failed");
             exit();
         }
     }
@@ -108,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         logError("Database error on found item insert", 'ERROR', ['error' => $stmt->error]);
         $stmt->close();
         $conn->close();
-        header("Location: ../post_item.php?error=database_error");
+        header("Location: " . APP_URL . "/post_item.php?error=database_error");
         exit();
     }
 }

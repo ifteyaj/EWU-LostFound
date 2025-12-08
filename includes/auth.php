@@ -29,7 +29,7 @@ function getCurrentUser() {
     }
     
     $userId = getCurrentUserId();
-    $stmt = $conn->prepare("SELECT id, student_id, email, full_name, phone, avatar, is_admin, is_verified, created_at FROM users WHERE id = ?");
+    $stmt = $conn->prepare("SELECT id, student_id, email, full_name, phone, avatar, is_admin, is_verified, last_login, created_at FROM users WHERE id = ?");
     $stmt->bind_param("i", $userId);
     $stmt->execute();
     $result = $stmt->get_result();
