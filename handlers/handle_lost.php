@@ -23,15 +23,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
     
-    // Validate required fields
-    $required = ['item_name', 'category', 'description', 'last_location', 'date_lost'];
-    foreach ($required as $field) {
-        if (empty($_POST[$field])) {
-            header("Location: " . APP_URL . "/post_item.php?error=missing_fields");
-            exit();
-        }
-    }
-    
     // Get current user details securely
     $currentUser = getCurrentUser();
     if (!$currentUser) {
@@ -42,7 +33,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $student_name = $currentUser['full_name'];
     $student_id = $currentUser['student_id'];
     $email = $currentUser['email'];
+    $user_id = getCurrentUserId();
 
+    // Validate required fields
+    $required = ['item_name', 'category', 'description', 'last_location', 'date_lost'];
+    foreach ($required as $field) {
+        if (empty($_POST[$field])) {
+            header("Location: " . APP_URL . "/post_item.php?error=missing_fields");
+            exit();
+        }
+    }
+    
     // Sanitize inputs
     $item_name = sanitizeInput($_POST['item_name']);
     $category = sanitizeInput($_POST['category']);
@@ -58,6 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Validate category
     if (!in_array($category, ITEM_CATEGORIES)) {
+        logError("Invalid category submitted: " . $category);
         header("Location: " . APP_URL . "/post_item.php?error=invalid_category");
         exit();
     }
@@ -86,30 +88,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
     }
+    
+    // DB Insert
+    try {
+        $stmt = $conn->prepare("INSERT INTO lost_items (user_id, item_name, category, description, last_location, date_lost, image, student_name, student_id, email, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
+        if (!$stmt) {
+             throw new Exception("Prepare failed: " . $conn->error);
+        }
+        $stmt->bind_param("isssssssss", $user_id, $item_name, $category, $description, $last_location, $date_lost, $image_name, $student_name, $student_id, $email);
 
-    // Get current user ID
-    $user_id = getCurrentUserId();
-
-    // Insert into database
-    $stmt = $conn->prepare("INSERT INTO lost_items (user_id, item_name, category, description, last_location, date_lost, image, student_name, student_id, email, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
-    $stmt->bind_param("isssssssss", $user_id, $item_name, $category, $description, $last_location, $date_lost, $image_name, $student_name, $student_id, $email);
-
-    if ($stmt->execute()) {
-        // Log successful submission
-        logActivity("Lost item reported", [
-            'item_name' => $item_name,
-            'student_id' => $student_id,
-            'id' => $conn->insert_id
-        ]);
-        
-        // Clear CSRF token after successful submission
-        unset($_SESSION['csrf_token']);
-        header("Location: " . APP_URL . "/lost.php?status=success");
-        exit();
-    } else {
-        logError("Database error on lost item insert", 'ERROR', ['error' => $stmt->error]);
-        $stmt->close();
-        $conn->close();
+        if ($stmt->execute()) {
+            unset($_SESSION['csrf_token']);
+            header("Location: " . APP_URL . "/lost.php?status=success");
+            exit();
+        } else {
+            throw new Exception("Execute failed: " . $stmt->error);
+        }
+    } catch (Exception $e) {
+        logError("Database error on lost item insert", 'ERROR', ['error' => $e->getMessage()]);
         header("Location: " . APP_URL . "/post_item.php?error=database_error");
         exit();
     }

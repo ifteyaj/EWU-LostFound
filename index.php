@@ -83,5 +83,7 @@ require_once 'init.php';
             ?>
         </div>
     </main>
+    </main>
+    <?php include 'includes/footer.php'; ?>
 </body>
 </html>
