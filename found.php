@@ -54,8 +54,12 @@ requireLogin();
         <div class="items-grid">
             <?php
             if ($conn && !$conn->connect_error) {
-                // Base query
-                $sql = "SELECT * FROM found_items";
+                // Pagination Setup
+                $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+                $limit = defined('ITEMS_PER_PAGE') ? ITEMS_PER_PAGE : 12;
+                $offset = ($page - 1) * $limit;
+
+                // Base Conditions
                 $conditions = [];
                 $params = [];
                 $types = "";
@@ -77,19 +81,29 @@ requireLogin();
                     $types .= "sss";
                 }
 
-                // Combine conditions
-                if (!empty($conditions)) {
-                    $sql .= " WHERE " . implode(" AND ", $conditions);
-                }
+                $whereClause = !empty($conditions) ? " WHERE " . implode(" AND ", $conditions) : "";
 
-                $sql .= " ORDER BY created_at DESC";
-
-                // Prepare statement
-                $stmt = $conn->prepare($sql);
+                // 1. Get Total Count
+                $countSql = "SELECT COUNT(*) as total FROM found_items" . $whereClause;
+                $countStmt = $conn->prepare($countSql);
                 if (!empty($params)) {
-                    $stmt->bind_param($types, ...$params);
+                    $countStmt->bind_param($types, ...$params);
                 }
+                $countStmt->execute();
+                $totalResult = $countStmt->get_result();
+                $totalItems = $totalResult->fetch_assoc()['total'];
+                $totalPages = ceil($totalItems / $limit);
+
+                // 2. Get Items
+                $sql = "SELECT * FROM found_items" . $whereClause . " ORDER BY created_at DESC LIMIT ? OFFSET ?";
                 
+                // Add pagination params
+                $params[] = $limit;
+                $params[] = $offset;
+                $types .= "ii";
+
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param($types, ...$params);
                 $stmt->execute();
                 $result = $stmt->get_result();
 
@@ -118,13 +132,43 @@ requireLogin();
                         <?php
                     }
                 } else {
-                    echo "<div class='empty-state'><h3>No found items reported yet.</h3></div>";
+                    echo "<div class='empty-state' style='grid-column: 1/-1;'><h3>No found items match your criteria.</h3></div>";
                 }
             } else {
-                echo "<div class='empty-state'><h3>Database connection error.</h3></div>";
+                echo "<div class='empty-state' style='grid-column: 1/-1;'><h3>Database connection error.</h3></div>";
             }
             ?>
         </div>
+
+        <!-- Pagination UI -->
+        <?php if (isset($totalPages) && $totalPages > 1): ?>
+        <div class="pagination" style="display: flex; justify-content: center; gap: 0.5rem; margin-top: 2rem;">
+            <?php
+            // Build query params for links
+            $queryParams = $_GET;
+            unset($queryParams['page']);
+            $queryString = http_build_query($queryParams);
+            $baseUrl = "?" . ($queryString ? $queryString . "&" : "");
+
+            // Prev Button
+            if ($page > 1): ?>
+                <a href="<?php echo $baseUrl . 'page=' . ($page - 1); ?>" class="btn-pill btn-outline">Previous</a>
+            <?php endif; ?>
+
+            <!-- Page Numbers -->
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <a href="<?php echo $baseUrl . 'page=' . $i; ?>" class="btn-pill" 
+                   style="<?php echo ($i == $page) ? '' : 'background: white; color: var(--text-dark); border: 1px solid var(--border-light);'; ?>">
+                    <?php echo $i; ?>
+                </a>
+            <?php endfor; ?>
+
+            <!-- Next Button -->
+            <?php if ($page < $totalPages): ?>
+                <a href="<?php echo $baseUrl . 'page=' . ($page + 1); ?>" class="btn-pill btn-outline">Next</a>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
     </div>
 </body>
 </html>

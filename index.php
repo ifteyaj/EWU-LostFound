@@ -22,10 +22,10 @@ require_once 'init.php';
             <h1><em>Reuniting You With</em><br><span class="highlight"><em>What Matters.</em></span></h1>
             <p>The official decentralized lost and found layer for East West University. Secure, transparent, and built for students.</p>
             
-            <div class="search-wrapper">
+            <form action="lost.php" method="GET" class="search-wrapper">
                 <span class="search-icon">🔍</span>
-                <input type="text" class="search-input" placeholder="Search for lost items...">
-            </div>
+                <input type="text" name="search" class="search-input" placeholder="Search lost items...">
+            </form>
         </div>
     </header>
 

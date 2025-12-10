@@ -118,15 +118,19 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
                             
                         <?php else: ?>
                             <!-- Visitor Actions -->
-                            <?php if($type == 'lost'): ?>
-                                <a href="mailto:<?php echo htmlspecialchars($item['email']); ?>?subject=Found Your Item: <?php echo urlencode($item['item_name']); ?>" class="btn-pill btn-lg">
-                                    I Found This!
-                                </a>
-                            <?php else: ?>
-                                <a href="mailto:<?php echo htmlspecialchars($item['email']); ?>?subject=Claiming Lost Item: <?php echo urlencode($item['item_name']); ?>" class="btn-pill btn-lg">
-                                    This is Mine!
-                                </a>
-                            <?php endif; ?>
+                            <div style="background: var(--bg-light); border: 1px solid var(--border-light); padding: 1.5rem; border-radius: 12px; text-align: center; width: 100%;">
+                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏛️</div>
+                                <h3 style="font-size: 1.1rem; color: var(--primary-navy); margin-bottom: 0.5rem;">University Lost & Found Office</h3>
+                                <p style="color: var(--text-secondary); margin: 0; font-size: 0.95rem; line-height: 1.5;">
+                                    <?php if($type == 'lost'): ?>
+                                        <strong style="color: var(--text-dark);">Found this item?</strong><br>
+                                        Please hand it over to the <strong>Registrar's Office</strong> so the owner can collect it safely.
+                                    <?php else: ?>
+                                        <strong style="color: var(--text-dark);">Is this yours?</strong><br>
+                                        Please visit the <strong>Registrar's Office</strong> to verify ownership and claim your item.
+                                    <?php endif; ?>
+                                </p>
+                            </div>
                         <?php endif; ?>
 
                         <button class="btn-pill btn-outline" onclick="navigator.share ? navigator.share({title: '<?php echo htmlspecialchars($item['item_name']); ?>', url: window.location.href}) : alert('Link copied!')">
