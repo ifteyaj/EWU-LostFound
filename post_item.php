@@ -41,13 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Common mappings
     if ($type == 'lost') {
         $_POST['last_location'] = $_POST['location'];
-        $_POST['student_name'] = $_POST['contact_name'];
-        $_POST['student_id'] = $_POST['contact_id'];
+
         include 'handlers/handle_lost.php';
     } else {
         $_POST['found_location'] = $_POST['location'];
-        $_POST['finder_name'] = $_POST['contact_name'];
-        $_POST['finder_id'] = $_POST['contact_id'];
+
         $_POST['date_found'] = $_POST['date_lost'];
         include 'handlers/handle_found.php';
     }
@@ -148,24 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                 </div>
 
-                <!-- Contact Info -->
-                <div style="border-top: 1px solid var(--border-light); margin: 1.5rem 0; padding-top: 1.5rem;">
-                    <label style="margin-bottom: 1rem; display:block; font-weight:600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary);">Contact Information</label>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>YOUR NAME</label>
-                            <input type="text" name="contact_name" class="form-control" value="<?php echo htmlspecialchars($currentUser['full_name'] ?? ''); ?>" placeholder="Full Name" required readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>STUDENT ID</label>
-                            <input type="text" name="contact_id" class="form-control" value="<?php echo htmlspecialchars($currentUser['student_id'] ?? ''); ?>" placeholder="e.g. 2020-3-60-001" required readonly>
-                        </div>
-                        <div class="form-group full-width">
-                            <label>EMAIL</label>
-                            <input type="email" name="email" class="form-control" value="<?php echo htmlspecialchars($currentUser['email'] ?? ''); ?>" placeholder="your.email@ewubd.edu" required readonly>
-                        </div>
-                    </div>
-                </div>
+
 
                 <div class="form-footer">
                     <a href="index.php" class="btn-cancel">Cancel</a>

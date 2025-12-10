@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     // Validate required fields
-    $required = ['item_name', 'category', 'description', 'found_location', 'date_found', 'finder_name', 'finder_id', 'email'];
+    $required = ['item_name', 'category', 'description', 'found_location', 'date_found'];
     foreach ($required as $field) {
         if (empty($_POST[$field])) {
             header("Location: " . APP_URL . "/post_item.php?error=missing_fields");
@@ -32,21 +32,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     
+    // Get current user details securely
+    $currentUser = getCurrentUser();
+    if (!$currentUser) {
+        header("Location: " . APP_URL . "/login.php");
+        exit();
+    }
+
+    $finder_name = $currentUser['full_name'];
+    $finder_id = $currentUser['student_id'];
+    $email = $currentUser['email'];
+
     // Sanitize inputs
     $item_name = sanitizeInput($_POST['item_name']);
     $category = sanitizeInput($_POST['category']);
     $description = sanitizeInput($_POST['description']);
     $found_location = sanitizeInput($_POST['found_location']);
     $date_found = sanitizeInput($_POST['date_found']);
-    $finder_name = sanitizeInput($_POST['finder_name']);
-    $finder_id = sanitizeInput($_POST['finder_id']);
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    
-    // Validate email
-    if (!isValidEmail($email)) {
-        header("Location: " . APP_URL . "/post_item.php?error=invalid_email");
-        exit();
-    }
     
     // Validate date format
     if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date_found)) {
