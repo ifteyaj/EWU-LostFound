@@ -60,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Report an Item - EWU Lost & Found</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
         .toggle-switch input[type="radio"] {
@@ -76,9 +77,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             align-items: center;
             gap: 0.75rem;
             font-size: 0.9rem;
-        }
-        .error-banner::before {
-            content: "⚠️";
         }
     </style>
 </head>
@@ -101,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             
             <?php if ($error): ?>
-                <div class="error-banner"><?php echo htmlspecialchars($error); ?></div>
+                <div class="error-banner">⚠️ <?php echo htmlspecialchars($error); ?></div>
             <?php endif; ?>
             
             <form action="post_item.php" method="POST" enctype="multipart/form-data" id="reportForm">

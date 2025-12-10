@@ -1,5 +1,6 @@
 /* EWU Lost & Found - Clean Light Theme */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css');
 
 :root {
     /* Theme Variables - Light Theme */
@@ -12,9 +13,9 @@
     --text-muted: #94a3b8;
     --white: #FFFFFF;
     --card-bg: #FFFFFF;
-    --card-shadow: 0 4px 20px rgba(30, 58, 95, 0.08);
-    --card-shadow-hover: 0 8px 30px rgba(30, 58, 95, 0.12);
-    --border-light: rgba(30, 58, 95, 0.1);
+    --card-shadow: none;
+    --card-shadow-hover: none;
+    --border-light: #e2e8f0;
 
     /* UI Constants */
     --radius-card: 20px;
@@ -382,14 +383,15 @@ body {
     background: var(--card-bg);
     border-radius: var(--radius-card);
     overflow: hidden;
-    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-light);
+    box-shadow: none;
     transition: all 0.3s ease;
     position: relative;
 }
 
 .item-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-2px);
+    border-color: var(--primary-navy);
 }
 
 .card-img {
@@ -397,6 +399,12 @@ body {
     overflow: hidden;
     background: var(--bg-light);
     position: relative;
+}
+
+/* Target card images specifically inside the profile grid */
+.profile-items-grid .item-card .card-img {
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
 }
 
 .card-img img {
@@ -438,16 +446,6 @@ body {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-}
-
-.card-location::before {
-    content: "📍";
-    font-size: 0.75rem;
-}
-
-.card-date::before {
-    content: "🕐";
-    font-size: 0.75rem;
 }
 
 /* Status Badge */
@@ -492,7 +490,8 @@ body {
 .detail-card {
     background: var(--card-bg);
     border-radius: var(--radius-card);
-    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-light);
+    box-shadow: none;
     overflow: hidden;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -507,14 +506,16 @@ body {
 
 .detail-image {
     position: relative;
-    min-height: 400px;
+    height: auto;
     background: var(--bg-light);
+    display: flex;
+    align-items: flex-start;
 }
 
 .detail-image img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
 }
 
 .detail-image .status-badge {
@@ -544,13 +545,18 @@ body {
     color: var(--primary-navy);
 }
 
+.section-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
 .detail-date {
     font-size: 0.85rem;
     color: var(--text-secondary);
 }
 
 .detail-title {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
     line-height: 1.3;
@@ -629,7 +635,8 @@ body {
     padding: 2.5rem;
     background: var(--card-bg);
     border-radius: var(--radius-card);
-    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-light);
+    box-shadow: none;
 }
 
 .form-header {
@@ -828,7 +835,8 @@ textarea.form-control {
     padding: 4rem 2rem;
     background: var(--card-bg);
     border-radius: var(--radius-card);
-    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-light);
+    box-shadow: none;
 }
 
 .empty-state h3 {

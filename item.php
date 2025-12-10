@@ -49,6 +49,7 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($item['item_name']); ?> - EWU Lost & Found</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -95,22 +96,22 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
 
                 <div class="detail-actions">
                     <div class="detail-actions-label">ACTIONS</div>
-                    <div class="detail-buttons">
-                        <!-- University Office Instruction (Visible to All) -->
-                        <div style="background: var(--bg-light); border: 1px solid var(--border-light); padding: 1.5rem; border-radius: 12px; text-align: center; width: 100%; margin-bottom: 1rem;">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏛️</div>
-                            <h3 style="font-size: 1.1rem; color: var(--primary-navy); margin-bottom: 0.5rem;">University Lost & Found Office</h3>
-                            <p style="color: var(--text-secondary); margin: 0; font-size: 0.95rem; line-height: 1.5;">
-                                <?php if($type == 'lost'): ?>
-                                    <strong style="color: var(--text-dark);">Found this item?</strong><br>
-                                    Please hand it over to the <strong>Registrar's Office</strong> so the owner can collect it safely.
-                                <?php else: ?>
-                                    <strong style="color: var(--text-dark);">Is this yours?</strong><br>
-                                    Please visit the <strong>Registrar's Office</strong> to verify ownership and claim your item.
-                                <?php endif; ?>
-                            </p>
-                        </div>
+                    <!-- University Office Instruction (Visible to All) -->
+                    <div style="background: var(--bg-light); border: 1px solid var(--border-light); padding: 1.5rem; border-radius: 12px; text-align: center; width: 100%; margin-bottom: 1rem;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏛️</div>
+                        <h3 style="font-size: 1.1rem; color: var(--primary-navy); margin-bottom: 0.5rem;">University Lost & Found Office</h3>
+                        <p style="color: var(--text-secondary); margin: 0; font-size: 0.95rem; line-height: 1.5;">
+                            <?php if($type == 'lost'): ?>
+                                <strong style="color: var(--text-dark);">Found this item?</strong><br>
+                                Please hand it over to the <strong>Registrar's Office</strong> so the owner can collect it safely.
+                            <?php else: ?>
+                                <strong style="color: var(--text-dark);">Is this yours?</strong><br>
+                                Please visit the <strong>Registrar's Office</strong> to verify ownership and claim your item.
+                            <?php endif; ?>
+                        </p>
+                    </div>
 
+                    <div class="detail-buttons">
                         <?php 
                         $currentUserId = getCurrentUserId();
                         $isOwner = ($item['user_id'] == $currentUserId);

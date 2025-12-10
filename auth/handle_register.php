@@ -40,7 +40,13 @@ $phone = !empty($_POST['phone']) ? sanitizeInput($_POST['phone']) : null;
 $password = $_POST['password'];
 $passwordConfirm = $_POST['password_confirm'];
 
-// Validate email format
+// Validate email format (Must be StudentID@std.ewubd.edu)
+$expectedEmail = $studentId . '@std.ewubd.edu';
+if ($email !== $expectedEmail) {
+    header("Location: register.php?error=invalid_email_format");
+    exit();
+}
+
 if (!isValidEmail($email)) {
     header("Location: register.php?error=invalid_email");
     exit();

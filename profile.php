@@ -148,7 +148,7 @@ $user = getCurrentUser();
                     <a href="post_item.php" class="btn-pill" style="margin-top: 1rem;">Report an Item</a>
                 </div>
             <?php else: ?>
-                <div class="items-grid">
+                <div class="items-grid profile-items-grid">
                     <?php foreach($lostItems as $item): 
                         $img_src = !empty($item['image']) ? 'uploads/' . htmlspecialchars($item['image']) : '';
                     ?>

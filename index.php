@@ -12,6 +12,7 @@ require_once 'init.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="EWU Lost & Found - The official lost and found platform for East West University. Report and find lost items easily.">
     <title>EWU Lost & Found - Reuniting You With What Matters</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -67,8 +68,8 @@ require_once 'init.php';
                                 <div class="card-category"><?php echo htmlspecialchars($row['category']); ?></div>
                                 <h3 class="card-title"><?php echo htmlspecialchars($row['item_name']); ?></h3>
                                 <div class="card-meta">
-                                    <span class="card-location"><?php echo htmlspecialchars($row['location']); ?></span>
-                                    <span class="card-date"><?php echo date('d F, Y', strtotime($row['event_date'])); ?></span>
+                                    <span class="card-location">📍 <?php echo htmlspecialchars($row['location']); ?></span>
+                                    <span class="card-date">📅 <?php echo date('d F, Y', strtotime($row['event_date'])); ?></span>
                                 </div>
                             </div>
                         </a>

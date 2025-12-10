@@ -14,6 +14,7 @@ requireLogin();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Browse found items at East West University. Claim your lost belongings today.">
     <title>Found Items - EWU Lost & Found</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -116,7 +117,7 @@ requireLogin();
                                 <?php if($img_src): ?>
                                     <img src="<?php echo $img_src; ?>" alt="<?php echo htmlspecialchars($row['item_name']); ?>">
                                 <?php else: ?>
-                                    <div style="height:100%; display:flex; align-items:center; justify-content:center; color:var(--text-muted);">No Image</div>
+                                    <div style="height:100%; display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size: 2rem;">📦</div>
                                 <?php endif; ?>
                                 <span class="status-badge status-found">FOUND</span>
                             </div>
@@ -124,8 +125,8 @@ requireLogin();
                                 <div class="card-category"><?php echo htmlspecialchars($row['category']); ?></div>
                                 <h3 class="card-title"><?php echo htmlspecialchars($row['item_name']); ?></h3>
                                 <div class="card-meta">
-                                    <span class="card-location"><?php echo htmlspecialchars($row['found_location']); ?></span>
-                                    <span class="card-date"><?php echo date('d F, Y', strtotime($row['date_found'])); ?></span>
+                                    <span class="card-location">📍 <?php echo htmlspecialchars($row['found_location']); ?></span>
+                                    <span class="card-date">📅 <?php echo date('d F, Y', strtotime($row['date_found'])); ?></span>
                                 </div>
                             </div>
                         </a>

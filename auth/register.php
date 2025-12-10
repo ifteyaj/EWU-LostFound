@@ -17,6 +17,7 @@ $error_messages = [
     'password_mismatch' => 'Passwords do not match.',
     'password_weak' => 'Password must be at least 8 characters long.',
     'invalid_email' => 'Please enter a valid email address.',
+    'invalid_email_format' => 'Email must be in the format: (Student ID)@std.ewubd.edu',
     'missing_fields' => 'Please fill in all required fields.',
     'invalid_token' => 'Security validation failed. Please try again.',
     'database_error' => 'Registration failed. Please try again.',
@@ -187,7 +188,7 @@ $error = isset($_GET['error']) && isset($error_messages[$_GET['error']])
                 
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="your.email@ewubd.edu" required>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="ID@std.ewubd.edu" required>
                 </div>
                 
                 <div class="form-row">
@@ -213,14 +214,34 @@ $error = isset($_GET['error']) && isset($error_messages[$_GET['error']])
     </div>
     
     <script>
-        // Simple password match validation
+        // Form validation
         document.querySelector('.auth-form').addEventListener('submit', function(e) {
+            const studentId = document.getElementById('student_id').value.trim();
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const confirm = document.getElementById('password_confirm').value;
             
+            // Validate email format
+            const expectedEmail = studentId + '@std.ewubd.edu';
+            if (email !== expectedEmail) {
+                e.preventDefault();
+                alert('Email must be your Student ID followed by @std.ewubd.edu\nExample: ' + expectedEmail);
+                return;
+            }
+
             if (password !== confirm) {
                 e.preventDefault();
                 alert('Passwords do not match!');
+            }
+        });
+        
+        // Auto-complete email based on Student ID
+        document.getElementById('student_id').addEventListener('input', function(e) {
+            const studentId = e.target.value.trim();
+            if(studentId.length > 0) {
+                document.getElementById('email').placeholder = studentId + '@std.ewubd.edu';
+            } else {
+                document.getElementById('email').placeholder = 'ID@std.ewubd.edu';
             }
         });
     </script>
