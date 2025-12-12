@@ -83,35 +83,64 @@ img {
 }
 
 /* Navbar */
+/* Navbar */
 .navbar {
     position: fixed;
-    top: 1.5rem;
+    top: 0;
+    /* Align to top */
     left: 0;
     right: 0;
     z-index: 1000;
     padding: 0;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.98);
+    /* Background on navbar itself */
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease-in-out;
+    /* Smooth transition for hiding */
+}
+
+.navbar--hidden {
+    transform: translateY(-100%);
+    /* Slide up to hide */
 }
 
 .navbar .container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    /* Space out logo and links */
     align-items: center;
+    max-width: 100%;
+    /* Full width */
+    padding: 0 2rem;
+    height: 70px;
+    /* Fixed height */
 }
 
 .nav-links {
     display: flex;
-    gap: 2.5rem;
+    gap: 2rem;
     align-items: center;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(16px);
-    padding: 0.4rem 2rem;
-    padding-left: 0.4rem;
-    border-radius: 60px;
-    box-shadow: 0 8px 32px rgba(30, 58, 95, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    min-width: 1000px;
-    justify-content: space-between;
+    background: transparent;
+    /* Remove pill background */
+    backdrop-filter: none;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    min-width: auto;
+    width: 100%;
+    justify-content: flex-end;
+    /* Push links to right */
+}
+
+/* Ensure logo stays on left */
+.logo-item {
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    /* Move logo out of nav-links loop logic ideally, but with current PHP we can flex trick it */
+    order: -1;
 }
 
 .nav-links li {
@@ -844,6 +873,7 @@ textarea.form-control {
         gap: 1rem;
     }
 }
+
 /* Pagination */
 .pagination {
     display: flex;

@@ -37,4 +37,7 @@
             &copy; <?php echo date('Y'); ?> East West University. All rights reserved.
         </div>
     </div>
+    </div>
+    <script src="<?php echo APP_URL; ?>/assets/js/navbar.js"></script>
 </footer>
+

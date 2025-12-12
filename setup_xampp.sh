@@ -1,60 +1,65 @@
 #!/bin/bash
-# Setup script for XAMPP on macOS
+# FINAL REPAIR SCRIPT
+# This script fixes BOTH the Site (403 Error) and phpMyAdmin.
+# Strategy: 
+# 1. Revert Apache User to 'daemon' (Fixes phpMyAdmin)
+# 2. COPY files to htdocs instead of Symlink (Fixes Site Permissions)
 
-# 1. Define Paths
 PROJECT_PATH="$(pwd)"
 XAMPP_HTDOCS="/Applications/XAMPP/xamppfiles/htdocs"
 LINK_NAME="EWU-LostFound"
 CONFIG_FILE="/Applications/XAMPP/xamppfiles/etc/httpd.conf"
 
-echo "🔧 Starting XAMPP Setup..."
+echo "🔧 Starting Final Repair..."
 
-# 2. Fix Local Permissions
-echo "🔓 Fixing git/project permissions..."
-chmod -R 755 "$PROJECT_PATH"
-
-# 3. Create Symlink
-echo "🔗 Checking symlink..."
-if [ ! -d "$XAMPP_HTDOCS" ]; then
-    echo "❌ XAMPP htdocs directory not found!"
-    echo "   Please check if XAMPP is installed at /Applications/XAMPP"
-    exit 1
-fi
-
-if [ -L "$XAMPP_HTDOCS/$LINK_NAME" ]; then
-    echo "   Symlink exists. Refreshing..."
-    rm "$XAMPP_HTDOCS/$LINK_NAME"
-fi
-
-if ln -s "$PROJECT_PATH" "$XAMPP_HTDOCS/$LINK_NAME"; then
-    echo "✅ Symlink created successfully!"
+# 1. Revert Apache User to 'daemon' (Fixes phpMyAdmin)
+echo "👤 Restoring Apache User to 'daemon'..."
+if grep -q "User daemon" "$CONFIG_FILE"; then
+    echo "   User is already daemon."
 else
-    echo "⚠️  Failed to create symlink. Asking for sudo..."
-    sudo ln -s "$PROJECT_PATH" "$XAMPP_HTDOCS/$LINK_NAME"
+    # Replace any 'User <name>' with 'User daemon'
+    sudo sed -i.bak 's/^User .*/User daemon/' "$CONFIG_FILE"
+    echo "✅ Restored 'User daemon' in httpd.conf"
 fi
 
-# 4. Critical Apache Configuration Instructions
+# 2. Switch to COPY method (Fixes Site 403)
+echo "📂 Setting up Project in htdocs..."
+DEST_DIR="$XAMPP_HTDOCS/$LINK_NAME"
+
+# Remove existing symlink or folder
+if [ -e "$DEST_DIR" ]; then
+    echo "   Removing old version..."
+    sudo rm -rf "$DEST_DIR"
+fi
+
+# Create directory
+echo "   Copying files (this may take a second)..."
+sudo mkdir -p "$DEST_DIR"
+sudo cp -R "$PROJECT_PATH/" "$DEST_DIR/"
+
+# 3. Fix Permissions
+echo "🔓 Fixing Permissions..."
+sudo chown -R daemon:daemon "$DEST_DIR"
+sudo chmod -R 755 "$DEST_DIR"
+
+echo "✅ Project copied successfully."
+
+# 4. Restart Apache (Automated)
+echo "🔄 Restarting Apache..."
+sudo /Applications/XAMPP/xamppfiles/bin/apachectl restart
+
+# 5. Success Message
 echo ""
-echo "=================================================================="
-echo "🚨 CRITICAL FIX FOR 403 FORBIDDEN ERROR 🚨"
-echo "=================================================================="
-echo "Because your project is on the Desktop, Apache cannot read it by default."
-echo "You MUST perform the following steps manually:"
+echo "🎉 REPAIR COMPLETE!"
+echo "------------------------------------------------"
+echo "✅ phpMyAdmin restored."
+echo "✅ Site repaired."
+echo "✅ Apache restarted."
 echo ""
-echo "1. Open the Apache Config file:"
-echo "   $CONFIG_FILE"
+echo "🚀 SITREP:"
+echo "To avoid running this script every time you save a file,"
+echo "you should open the XAMPP folder in VS Code:"
 echo ""
-echo "2. Add this allowed directory block at the very end of the file:"
+echo "   /Applications/XAMPP/xamppfiles/htdocs/EWU-LostFound"
 echo ""
-echo "   <Directory \"$PROJECT_PATH\">"
-echo "       Options Indexes FollowSymLinks Includes ExecCGI"
-echo "       AllowOverride All"
-echo "       Require all granted"
-echo "   </Directory>"
-echo ""
-echo "3. (Optional but Recommended) Find 'User daemon' (approx line 170)"
-echo "   and change it to your username:"
-echo "   User $(whoami)"
-echo ""
-echo "4. SAVE the file and RESTART Apache in XAMPP Manager."
-echo "=================================================================="
+echo "------------------------------------------------"
