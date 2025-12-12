@@ -844,3 +844,51 @@ textarea.form-control {
         gap: 1rem;
     }
 }
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 0.75rem;
+    border-radius: var(--radius-btn);
+    background: var(--white);
+    color: var(--text-dark);
+    font-weight: 500;
+    font-size: 0.9rem;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+}
+
+.page-link:hover {
+    background: var(--bg-light);
+    color: var(--primary-navy);
+    transform: translateY(-2px);
+}
+
+.page-link.active {
+    background: var(--primary-navy);
+    color: var(--white);
+}
+
+.page-link.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--bg-light);
+    transform: none;
+    box-shadow: none;
+}
+
+.page-dots {
+    color: var(--text-muted);
+    font-weight: 500;
+}
