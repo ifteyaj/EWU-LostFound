@@ -117,14 +117,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="form-group">
                         <label>CATEGORY</label>
                         <select name="category" class="form-control" required>
-                            <option value="Electronics">⌨️ Electronics</option>
-                            <option value="Accessories">👜 Accessories</option>
-                            <option value="Documents">📄 Documents</option>
-                            <option value="Clothing">👕 Clothing</option>
-                            <option value="Books">📚 Books & Stationery</option>
-                            <option value="IDs">🪪 IDs & Cards</option>
-                            <option value="Keys">🔑 Keys</option>
-                            <option value="Other">📦 Other</option>
+                            <option value="">Select Category</option>
+                            <?php 
+                            $category_icons = [
+                                'Electronics' => '⌨️',
+                                'Books & Notes' => '📚',
+                                'ID Cards & Documents' => '🪪',
+                                'Accessories' => '👜',
+                                'Clothing' => '👕',
+                                'Keys' => '🔑',
+                                'Bags & Wallets' => '🎒',
+                                'Sports Equipment' => '⚽',
+                                'Stationery' => '✏️',
+                                'Others' => '📦'
+                            ];
+                            foreach (ITEM_CATEGORIES as $cat) {
+                                $icon = $category_icons[$cat] ?? '🔹';
+                                echo "<option value=\"" . htmlspecialchars($cat) . "\">$icon $cat</option>";
+                            }
+                            ?>
                         </select>
                     </div>
 
