@@ -1,0 +1,8 @@
+# EWU Lost & Found Project Configuration
+# Paste this at the very end of: /Applications/XAMPP/xamppfiles/etc/httpd.conf
+
+<Directory "/Users/ifteyajahmed/Desktop/Ewu-LostFound/EWU-LostFound">
+    Options Indexes FollowSymLinks Includes ExecCGI
+    AllowOverride All
+    Require all granted
+</Directory>
