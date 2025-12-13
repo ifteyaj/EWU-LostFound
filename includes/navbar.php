@@ -35,7 +35,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 <?php if (isAdmin()): ?>
                     <li><a href="<?php echo APP_URL; ?>/admin/index.php" class="nav-link">Admin</a></li>
                 <?php endif; ?>
-                <li><a href="<?php echo APP_URL; ?>/auth/logout.php" class="nav-link" style="color: var(--status-lost-text);">Logout</a></li>
             <?php else: ?>
                 <li>
                     <a href="<?php echo APP_URL; ?>/auth/login.php" class="nav-link <?php echo ($currentPage == 'login.php') ? 'active' : ''; ?>">

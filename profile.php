@@ -42,6 +42,21 @@ $user = getCurrentUser();
                         <div><i class="ri-calendar-line"></i> Member since <?php echo date('M Y', strtotime($user['created_at'])); ?></div>
                     </div>
                 </div>
+                
+                <!-- Logout Button -->
+                <a href="<?php echo APP_URL; ?>/auth/logout.php" 
+                   class="btn-pill" 
+                   style="background: rgba(255,255,255,0.2); 
+                          color: white; 
+                          border: 2px solid rgba(255,255,255,0.3); 
+                          padding: 0.8rem 2rem; 
+                          font-weight: 600;
+                          backdrop-filter: blur(10px);
+                          transition: all 0.3s ease;"
+                   onmouseover="this.style.background='rgba(255,255,255,0.3)'; this.style.borderColor='rgba(255,255,255,0.5)';"
+                   onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.borderColor='rgba(255,255,255,0.3)';">
+                    <i class="ri-logout-box-line"></i> Logout
+                </a>
             </div>
         </div>
 
