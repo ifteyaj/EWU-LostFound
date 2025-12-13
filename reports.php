@@ -21,7 +21,11 @@ requireLogin();
 <body>
     <?php include 'includes/navbar.php'; ?>
 
-    <div class="container" style="padding-top: 10rem; padding-bottom: 5rem;">
+    <div class="container" style="padding-top: 8rem; padding-bottom: 4rem;">
+        <a href="index.php" class="back-link" style="display:inline-block; margin-bottom:1.5rem; color:#64748b; font-weight:500; text-decoration:none; transition: color 0.2s;">
+            ← Back to Home
+        </a>
+        
         <div class="section-header" style="margin-bottom: 2rem;">
             <div>
                 <h2>All Reports</h2>
@@ -192,16 +196,24 @@ requireLogin();
                                 <?php if($img_src): ?>
                                     <img src="<?php echo $img_src; ?>" alt="<?php echo htmlspecialchars($row['item_name']); ?>">
                                 <?php else: ?>
-                                    <div style="height:100%; display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size: 2rem;">📦</div>
+                                    <div style="height:100%; display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size: 2rem;">
+                                        <i class="ri-box-3-line"></i>
+                                    </div>
                                 <?php endif; ?>
                                 <span class="status-badge <?php echo $badgeClass; ?>"><?php echo $badgeText; ?></span>
                             </div>
                             <div class="card-content">
                                 <div class="card-category"><?php echo htmlspecialchars($row['category']); ?></div>
                                 <h3 class="card-title"><?php echo htmlspecialchars($row['item_name']); ?></h3>
-                                <div class="card-meta">
-                                    <span class="card-location">📍 <?php echo htmlspecialchars($row['location']); ?></span>
-                                    <span class="card-date">📅 <?php echo date('d F, Y', strtotime($row['event_date'])); ?></span>
+                                <div class="card-meta" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                    <span class="card-location" style="display: flex; align-items: center; gap: 0.25rem;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.14876 5.63604 4.63404C9.15076 1.11932 14.8513 1.11932 18.366 4.63404C21.8807 8.14876 21.8807 13.8492 18.366 17.364L12 23.7279ZM16.9518 15.9497C19.6855 13.2161 19.6855 8.78392 16.9518 6.05025C14.2181 3.31658 9.78596 3.31658 7.05228 6.05025C4.31861 8.78392 4.31861 13.2161 7.05228 15.9497L12 20.8975L16.9518 15.9497ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path></svg>
+                                        <?php echo htmlspecialchars($row['location']); ?>
+                                    </span>
+                                    <span class="card-date" style="display: flex; align-items: center; gap: 0.25rem;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H7V1H9V3H15V1H17V3ZM4 9V19H20V9H4ZM6 11H8V13H6V11ZM11 11H13V13H11V11ZM16 11H18V13H16V11Z"></path></svg>
+                                        <?php echo date('d F, Y', strtotime($row['event_date'])); ?>
+                                    </span>
                                 </div>
                             </div>
                         </a>

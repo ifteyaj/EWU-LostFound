@@ -260,7 +260,11 @@ a {
     transition: transform 0.2s;
     border: none;
     cursor: pointer;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    line-height: 1;
 }
 
 .btn-primary {
@@ -285,15 +289,29 @@ a {
     font-weight: 700;
     font-size: 1.1rem;
     transition: all 0.3s ease;
+    overflow: hidden;
 }
 
 .profile-avatar i {
     font-size: 1.2rem;
 }
 
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-avatar.has-image {
+    background: transparent;
+}
+
 .profile-avatar-link:hover .profile-avatar {
-    background: #1a2652;
     transform: scale(1.05);
+}
+
+.profile-avatar-link:hover .profile-avatar:not(.has-image) {
+    background: #1a2652;
 }
 
 
@@ -438,7 +456,8 @@ a {
 
 .card-meta {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 0.5rem;
     font-size: 0.8rem;
     color: #94A3B8;
 }

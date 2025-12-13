@@ -8,6 +8,24 @@ require_once 'init.php';
 requireLogin();
 
 $user = getCurrentUser();
+
+// Handle messages
+$messages = [
+    'avatar_updated' => ['type' => 'success', 'text' => 'Profile picture updated successfully!'],
+    'invalid_token' => ['type' => 'error', 'text' => 'Security validation failed.'],
+    'no_file' => ['type' => 'error', 'text' => 'Please select an image to upload.'],
+    'upload_failed' => ['type' => 'error', 'text' => 'Failed to upload image. Please try again.'],
+    'invalid_type' => ['type' => 'error', 'text' => 'Invalid file type. Please upload a JPG, PNG, or GIF image.'],
+    'file_too_large' => ['type' => 'error', 'text' => 'File is too large. Maximum size is 5MB.'],
+    'database_error' => ['type' => 'error', 'text' => 'Failed to update profile. Please try again.']
+];
+
+$message = null;
+if (isset($_GET['success']) && isset($messages[$_GET['success']])) {
+    $message = $messages[$_GET['success']];
+} elseif (isset($_GET['error']) && isset($messages[$_GET['error']])) {
+    $message = $messages[$_GET['error']];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,22 +40,42 @@ $user = getCurrentUser();
     <?php include 'includes/navbar.php'; ?>
 
     <div class="container" style="padding-top: 10rem; padding-bottom: 4rem;">
+        <?php if ($message): ?>
+            <div style="padding: 1rem 1.5rem; border-radius: 12px; margin-bottom: 2rem; <?php echo $message['type'] === 'success' ? 'background: #D1FAE5; border: 1px solid #A7F3D0; color: #059669;' : 'background: #FEE2E2; border: 1px solid #FECACA; color: #DC2626;'; ?>">
+                <?php echo htmlspecialchars($message['text']); ?>
+            </div>
+        <?php endif; ?>
+        
         <!-- Profile Header with Gradient Background -->
         <div style="background: #23336a; border-radius: 24px; padding: 3rem 2rem; margin-bottom: 3rem; position: relative; overflow: hidden;">
             <div style="position: absolute; top: 0; right: 0; width: 300px; height: 300px; background: rgba(255,255,255,0.1); border-radius: 50%; transform: translate(30%, -30%);"></div>
             <div style="position: absolute; bottom: 0; left: 0; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%; transform: translate(-30%, 30%);"></div>
             
             <div style="position: relative; z-index: 10; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
-                <!-- Avatar -->
-                <div style="width: 100px; height: 100px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700; color: #23336a; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-                    <?php echo strtoupper(substr($user['full_name'], 0, 1)); ?>
+                <!-- Avatar with Upload -->
+                <div style="position: relative;">
+                    <div style="width: 100px; height: 100px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700; color: #23336a; box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden;">
+                        <?php if (!empty($user['avatar'])): ?>
+                            <img src="<?php echo APP_URL; ?>/uploads/avatars/<?php echo htmlspecialchars($user['avatar']); ?>" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+                        <?php else: ?>
+                            <?php echo strtoupper(substr($user['full_name'], 0, 1)); ?>
+                        <?php endif; ?>
+                    </div>
+                    <!-- Upload Button -->
+                    <button onclick="document.getElementById('avatarInput').click()" style="position: absolute; bottom: 0; right: 0; width: 32px; height: 32px; background: white; border: 2px solid #E2E8F0; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: all 0.3s ease;" title="Change profile picture" onmouseover="this.style.background='#F8FAFC'; this.style.transform='scale(1.1)';" onmouseout="this.style.background='white'; this.style.transform='scale(1)';">
+                        <i class="ri-camera-fill" style="color: #23336a; font-size: 1rem;"></i>
+                    </button>
+                    <!-- Hidden File Input -->
+                    <form id="avatarForm" action="<?php echo APP_URL; ?>/handlers/upload_avatar.php" method="POST" enctype="multipart/form-data" style="display: none;">
+                        <input type="hidden" name="csrf_token" value="<?php echo generateCsrfToken(); ?>">
+                        <input type="file" id="avatarInput" name="avatar" accept="image/*" onchange="document.getElementById('avatarForm').submit();">
+                    </form>
                 </div>
                 
                 <!-- User Info -->
                 <div style="flex: 1;">
                     <h1 style="color: white; font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;"><?php echo htmlspecialchars($user['full_name']); ?></h1>
                     <div style="display: flex; gap: 2rem; flex-wrap: wrap; color: rgba(255,255,255,0.9); font-size: 0.95rem;">
-                        <div><i class="ri-user-line"></i> <?php echo htmlspecialchars($user['student_id']); ?></div>
                         <div><i class="ri-mail-line"></i> <?php echo htmlspecialchars($user['email']); ?></div>
                         <div><i class="ri-calendar-line"></i> Member since <?php echo date('M Y', strtotime($user['created_at'])); ?></div>
                     </div>
@@ -89,51 +127,30 @@ $user = getCurrentUser();
         <!-- Stats Cards -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
             <!-- Lost Reports -->
-            <div style="background: white; border-radius: 16px; padding: 1.5rem; border: 1px solid #E2E8F0;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                    <div>
-                        <div style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">Lost Reports</div>
-                        <div style="font-size: 2.5rem; font-weight: 800; color: #EF4444; margin-top: 0.5rem;"><?php echo count($lostItems); ?></div>
-                    </div>
-                    <div style="width: 50px; height: 50px; background: #23336a; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                        <i class="ri-alarm-warning-line" style="font-size: 1.5rem; color: white;"></i>
-                    </div>
-                </div>
-                <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0;">Items you've reported as lost</p>
+            <div style="background: white; border-radius: 12px; padding: 1rem 1.25rem; border: 1px solid #E2E8F0;">
+                <div style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 0.5rem;">Lost Reports</div>
+                <div style="font-size: 2rem; font-weight: 800; color: #EF4444;"><?php echo count($lostItems); ?></div>
+                <p style="color: var(--text-secondary); font-size: 0.8rem; margin: 0.25rem 0 0 0;">Items you've reported as lost</p>
             </div>
 
             <!-- Found Reports -->
-            <div style="background: white; border-radius: 16px; padding: 1.5rem; border: 1px solid #E2E8F0;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                    <div>
-                        <div style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">Found Reports</div>
-                        <div style="font-size: 2.5rem; font-weight: 800; color: #10B981; margin-top: 0.5rem;"><?php echo count($foundItems); ?></div>
-                    </div>
-                    <div style="width: 50px; height: 50px; background: #23336a; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                        <i class="ri-checkbox-circle-line" style="font-size: 1.5rem; color: white;"></i>
-                    </div>
-                </div>
-                <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0;">Items you've found and reported</p>
+            <div style="background: white; border-radius: 12px; padding: 1rem 1.25rem; border: 1px solid #E2E8F0;">
+                <div style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 0.5rem;">Found Reports</div>
+                <div style="font-size: 2rem; font-weight: 800; color: #10B981;"><?php echo count($foundItems); ?></div>
+                <p style="color: var(--text-secondary); font-size: 0.8rem; margin: 0.25rem 0 0 0;">Items you've found and reported</p>
             </div>
 
             <!-- Account Status -->
-            <div style="background: white; border-radius: 16px; padding: 1.5rem; border: 1px solid #E2E8F0;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-                    <div>
-                        <div style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">Account Status</div>
-                        <div style="font-size: 1.2rem; font-weight: 700; color: var(--text-head); margin-top: 0.5rem;">
-                            <?php if($user['is_verified']): ?>
-                                <span style="color: #10B981;">✅ Verified</span>
-                            <?php else: ?>
-                                <span style="color: #EF4444;">⚠️ Unverified</span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <div style="width: 50px; height: 50px; background: #23336a; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                        <i class="ri-shield-check-line" style="font-size: 1.5rem; color: white;"></i>
-                    </div>
+            <div style="background: white; border-radius: 12px; padding: 1rem 1.25rem; border: 1px solid #E2E8F0;">
+                <div style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 0.5rem;">Account Status</div>
+                <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-head);">
+                    <?php if($user['is_verified']): ?>
+                        <span style="color: #10B981;">✅ Verified</span>
+                    <?php else: ?>
+                        <span style="color: #EF4444;">⚠️ Unverified</span>
+                    <?php endif; ?>
                 </div>
-                <p style="color: var(--text-secondary); font-size: 0.85rem; margin: 0;">
+                <p style="color: var(--text-secondary); font-size: 0.8rem; margin: 0.25rem 0 0 0;">
                     Last login: <?php echo $user['last_login'] ? date('M d, Y', strtotime($user['last_login'])) : 'Never'; ?>
                 </p>
             </div>
@@ -141,11 +158,8 @@ $user = getCurrentUser();
 
         <!-- My Reports Section -->
         <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div style="margin-bottom: 2rem;">
                 <h2 style="font-size: 1.75rem; font-weight: 800; color: #23336a; margin: 0;">My Reports</h2>
-                <a href="post_item.php" class="btn-pill btn-primary" style="padding: 0.8rem 1.8rem;">
-                    <i class="ri-add-line"></i> New Report
-                </a>
             </div>
             
             <?php if(empty($lostItems) && empty($foundItems)): ?>

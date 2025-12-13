@@ -30,7 +30,7 @@
         <!-- Copyright -->
         <div style="text-align: center; padding-top: 2rem; border-top: 1px solid var(--border-light);">
             <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0;">
-                &copy; <?php echo date('Y'); ?> East West University. All rights reserved.
+                &copy; Ifteyaj. All rights reserved.
             </p>
         </div>
     </div>

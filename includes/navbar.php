@@ -9,28 +9,31 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 ?>
 <nav class="navbar">
     <div class="container">
-        <!-- Logo -->
-        <div class="logo-item">
-            <a href="<?php echo APP_URL; ?>/index.php">
-                <img src="<?php echo APP_URL; ?>/assets/img/logo.png" alt="EWU Lost & Found">
-            </a>
-        </div>
-
-        <ul class="nav-links">
-            <li>
-                <a href="<?php echo APP_URL; ?>/index.php" class="nav-link <?php echo ($currentPage == 'index.php') ? 'active' : ''; ?>">
-                    Home
+        <div class="nav-left" style="display: flex; align-items: center; gap: 2rem;">
+            <!-- Logo -->
+            <div class="logo-item">
+                <a href="<?php echo APP_URL; ?>/index.php">
+                    <img src="<?php echo APP_URL; ?>/assets/img/logo.png" alt="EWU Lost & Found">
                 </a>
-            </li>
+            </div>
             
-
+        </div>
+        
+        <ul class="nav-links">
 
             <!-- Right Side Actions -->
-            <?php if (isLoggedIn()): ?>
+            <?php if (isLoggedIn()): 
+                $user = getCurrentUser();
+                $hasAvatar = !empty($user['avatar']);
+            ?>
                 <li>
                     <a href="<?php echo APP_URL; ?>/profile.php" class="profile-avatar-link <?php echo ($currentPage == 'profile.php') ? 'active' : ''; ?>" title="<?php echo htmlspecialchars(getUserDisplayName()); ?>">
-                        <div class="profile-avatar">
-                            <i class="ri-user-fill"></i>
+                        <div class="profile-avatar <?php echo $hasAvatar ? 'has-image' : ''; ?>">
+                            <?php if ($hasAvatar): ?>
+                                <img src="<?php echo APP_URL; ?>/uploads/avatars/<?php echo htmlspecialchars($user['avatar']); ?>" alt="<?php echo htmlspecialchars(getUserDisplayName()); ?>">
+                            <?php else: ?>
+                                <i class="ri-user-fill"></i>
+                            <?php endif; ?>
                         </div>
                     </a>
                 </li>
@@ -46,7 +49,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <?php endif; ?>
 
             <li>
-                <a href="<?php echo APP_URL; ?>/post_item.php" class="btn-pill btn-primary" style="margin-left: 1rem;">Report Item</a>
+                <a href="<?php echo APP_URL; ?>/post_item.php" class="btn-pill btn-primary">Report Item</a>
             </li>
         </ul>
     </div>
