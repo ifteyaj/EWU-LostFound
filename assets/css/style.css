@@ -272,6 +272,30 @@ a {
     background-color: #1a2652;
 }
 
+/* Profile Avatar */
+.profile-avatar {
+    width: 36px;
+    height: 36px;
+    background: var(--primary-brand);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.profile-avatar i {
+    font-size: 1.2rem;
+}
+
+.profile-avatar-link:hover .profile-avatar {
+    background: #1a2652;
+    transform: scale(1.05);
+}
+
 
 /* --- Sections --- */
 .section-header {

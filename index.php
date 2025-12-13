@@ -99,7 +99,7 @@ require_once 'init.php';
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
                 <!-- Step 1 -->
                 <div style="text-align: center; padding: 2rem 1.5rem;">
-                    <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                    <div style="width: 70px; height: 70px; background: #23336a; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
                         <i class="ri-login-circle-line" style="font-size: 2rem; color: white;"></i>
                     </div>
                     <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-head); margin-bottom: 0.75rem;">Sign in with Student Email</h3>
@@ -108,7 +108,7 @@ require_once 'init.php';
 
                 <!-- Step 2 -->
                 <div style="text-align: center; padding: 2rem 1.5rem;">
-                    <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                    <div style="width: 70px; height: 70px; background: #23336a; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
                         <i class="ri-file-add-line" style="font-size: 2rem; color: white;"></i>
                     </div>
                     <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-head); margin-bottom: 0.75rem;">Report Lost or Found Item</h3>
@@ -117,7 +117,7 @@ require_once 'init.php';
 
                 <!-- Step 3 -->
                 <div style="text-align: center; padding: 2rem 1.5rem;">
-                    <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                    <div style="width: 70px; height: 70px; background: #23336a; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
                         <i class="ri-search-2-line" style="font-size: 2rem; color: white;"></i>
                     </div>
                     <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-head); margin-bottom: 0.75rem;">Browse & Search Listings</h3>
@@ -126,7 +126,7 @@ require_once 'init.php';
 
                 <!-- Step 4 -->
                 <div style="text-align: center; padding: 2rem 1.5rem;">
-                    <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                    <div style="width: 70px; height: 70px; background: #23336a; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
                         <i class="ri-mail-send-line" style="font-size: 2rem; color: white;"></i>
                     </div>
                     <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-head); margin-bottom: 0.75rem;">Contact & Recover</h3>

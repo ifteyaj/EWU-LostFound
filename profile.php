@@ -23,13 +23,13 @@ $user = getCurrentUser();
 
     <div class="container" style="padding-top: 10rem; padding-bottom: 4rem;">
         <!-- Profile Header with Gradient Background -->
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 24px; padding: 3rem 2rem; margin-bottom: 3rem; position: relative; overflow: hidden;">
+        <div style="background: #23336a; border-radius: 24px; padding: 3rem 2rem; margin-bottom: 3rem; position: relative; overflow: hidden;">
             <div style="position: absolute; top: 0; right: 0; width: 300px; height: 300px; background: rgba(255,255,255,0.1); border-radius: 50%; transform: translate(30%, -30%);"></div>
             <div style="position: absolute; bottom: 0; left: 0; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%; transform: translate(-30%, 30%);"></div>
             
             <div style="position: relative; z-index: 10; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
                 <!-- Avatar -->
-                <div style="width: 100px; height: 100px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700; color: #667eea; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                <div style="width: 100px; height: 100px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700; color: #23336a; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
                     <?php echo strtoupper(substr($user['full_name'], 0, 1)); ?>
                 </div>
                 
@@ -95,7 +95,7 @@ $user = getCurrentUser();
                         <div style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">Lost Reports</div>
                         <div style="font-size: 2.5rem; font-weight: 800; color: #EF4444; margin-top: 0.5rem;"><?php echo count($lostItems); ?></div>
                     </div>
-                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 50px; height: 50px; background: #23336a; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
                         <i class="ri-alarm-warning-line" style="font-size: 1.5rem; color: white;"></i>
                     </div>
                 </div>
@@ -109,7 +109,7 @@ $user = getCurrentUser();
                         <div style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">Found Reports</div>
                         <div style="font-size: 2.5rem; font-weight: 800; color: #10B981; margin-top: 0.5rem;"><?php echo count($foundItems); ?></div>
                     </div>
-                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 50px; height: 50px; background: #23336a; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
                         <i class="ri-checkbox-circle-line" style="font-size: 1.5rem; color: white;"></i>
                     </div>
                 </div>
@@ -129,7 +129,7 @@ $user = getCurrentUser();
                             <?php endif; ?>
                         </div>
                     </div>
-                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <div style="width: 50px; height: 50px; background: #23336a; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
                         <i class="ri-shield-check-line" style="font-size: 1.5rem; color: white;"></i>
                     </div>
                 </div>

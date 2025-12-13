@@ -47,6 +47,7 @@ $error = isset($_GET['error']) && isset($error_messages[$_GET['error']])
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             overflow: hidden;
             height: 100vh;
+            background: #ffffff;
         }
         
         .auth-container {
@@ -69,8 +70,7 @@ $error = isset($_GET['error']) && isset($error_messages[$_GET['error']])
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%), 
-                        url('../assets/img/campus-hero.jpg') center/cover;
+            background: url('../assets/img/ewu_campus_auth.jpg') center/cover;
             background-size: cover;
             background-position: center;
         }
@@ -81,7 +81,7 @@ $error = isset($_GET['error']) && isset($error_messages[$_GET['error']])
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.3) 100%);
+            background: transparent;
         }
         
         .hero-content {
@@ -102,7 +102,6 @@ $error = isset($_GET['error']) && isset($error_messages[$_GET['error']])
         
         .hero-logo img {
             height: 60px;
-            filter: brightness(0) invert(1);
         }
         
         .hero-content h1 {
@@ -110,6 +109,7 @@ $error = isset($_GET['error']) && isset($error_messages[$_GET['error']])
             font-weight: 800;
             margin-bottom: 1rem;
             line-height: 1.2;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
         }
         
         .hero-content p {
@@ -117,18 +117,20 @@ $error = isset($_GET['error']) && isset($error_messages[$_GET['error']])
             margin-bottom: 1rem;
             opacity: 0.95;
             max-width: 500px;
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.7);
         }
         
         .hero-content .tagline {
             font-size: 0.95rem;
             opacity: 0.75;
             font-weight: 500;
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.7);
         }
         
         /* Right Form Section */
         .form-section {
             flex: 1;
-            background: #0a0a0a;
+            background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -144,30 +146,30 @@ $error = isset($_GET['error']) && isset($error_messages[$_GET['error']])
         }
         
         .form-header h2 {
-            color: #ffffff;
+            color: #23336a;
             font-size: 1.75rem;
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 0.75rem;
         }
         
         .form-header p {
-            color: #9ca3af;
+            color: #64748B;
             font-size: 0.95rem;
             margin-bottom: 2.5rem;
         }
         
         .alert {
             padding: 1rem;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-bottom: 1.5rem;
             font-size: 0.9rem;
             font-weight: 500;
         }
         
         .alert-error {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #fca5a5;
+            background: #FEE2E2;
+            border: 1px solid #FECACA;
+            color: #DC2626;
         }
         
         .form-group {
@@ -176,7 +178,7 @@ $error = isset($_GET['error']) && isset($error_messages[$_GET['error']])
         
         .form-group label {
             display: block;
-            color: #d1d5db;
+            color: #1e293b;
             font-size: 0.875rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
@@ -185,10 +187,10 @@ $error = isset($_GET['error']) && isset($error_messages[$_GET['error']])
         .form-group input {
             width: 100%;
             padding: 0.875rem 1rem;
-            background: transparent;
-            border: 1px solid #2d2d2d;
-            border-radius: 8px;
-            color: #ffffff;
+            background: #ffffff;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            color: #1e293b;
             font-size: 0.95rem;
             transition: all 0.2s ease;
             font-family: inherit;
@@ -196,12 +198,12 @@ $error = isset($_GET['error']) && isset($error_messages[$_GET['error']])
         
         .form-group input:focus {
             outline: none;
-            border-color: #4a5568;
-            background: rgba(255, 255, 255, 0.02);
+            border-color: #23336a;
+            box-shadow: 0 0 0 3px rgba(35, 51, 106, 0.1);
         }
         
         .form-group input::placeholder {
-            color: #6b7280;
+            color: #94A3B8;
         }
         
         .form-row {
@@ -213,10 +215,10 @@ $error = isset($_GET['error']) && isset($error_messages[$_GET['error']])
         .btn-submit {
             width: 100%;
             padding: 0.95rem;
-            background: #869F86;
-            color: #0a0a0a;
+            background: #23336a;
+            color: #ffffff;
             border: none;
-            border-radius: 8px;
+            border-radius: 100px;
             font-size: 0.95rem;
             font-weight: 700;
             cursor: pointer;
@@ -228,43 +230,43 @@ $error = isset($_GET['error']) && isset($error_messages[$_GET['error']])
         }
         
         .btn-submit:hover {
-            background: #9bb29b;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(134, 159, 134, 0.3);
+            background: #1a2652;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(35, 51, 106, 0.3);
         }
         
         .form-footer {
             margin-top: 2rem;
             padding-top: 2rem;
-            border-top: 1px solid #1f1f1f;
+            border-top: 1px solid #E2E8F0;
             text-align: center;
         }
         
         .form-footer p {
-            color: #9ca3af;
+            color: #64748B;
             font-size: 0.9rem;
         }
         
         .form-footer a {
-            color: #ffffff;
-            font-weight: 600;
+            color: #23336a;
+            font-weight: 700;
             text-decoration: none;
             transition: color 0.2s ease;
         }
         
         .form-footer a:hover {
-            color: #869F86;
+            color: #1a2652;
         }
         
         .password-hint {
             font-size: 0.75rem;
-            color: #6b7280;
+            color: #64748B;
             margin-top: 0.35rem;
         }
         
         .terms-text {
             font-size: 0.8rem;
-            color: #6b7280;
+            color: #64748B;
             margin-top: 1rem;
             line-height: 1.5;
         }

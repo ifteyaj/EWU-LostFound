@@ -28,8 +28,10 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             <!-- Right Side Actions -->
             <?php if (isLoggedIn()): ?>
                 <li>
-                    <a href="<?php echo APP_URL; ?>/profile.php" class="nav-link <?php echo ($currentPage == 'profile.php') ? 'active' : ''; ?>">
-                        Hi, <?php echo htmlspecialchars(getUserDisplayName()); ?>
+                    <a href="<?php echo APP_URL; ?>/profile.php" class="profile-avatar-link <?php echo ($currentPage == 'profile.php') ? 'active' : ''; ?>" title="<?php echo htmlspecialchars(getUserDisplayName()); ?>">
+                        <div class="profile-avatar">
+                            <i class="ri-user-fill"></i>
+                        </div>
                     </a>
                 </li>
                 <?php if (isAdmin()): ?>
