@@ -55,7 +55,7 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
 <body>
     <?php include 'includes/navbar.php'; ?>
 
-    <div class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <div class="container" style="padding-top: 10rem; padding-bottom: 4rem;">
         <a href="javascript:history.back()" class="back-link">
             ← Back to Items
         </a>
@@ -82,9 +82,6 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
                 
                 <!-- Location -->
                 <div class="detail-section">
-                    <div class="detail-icon" style="background: var(--glass-bg); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
-                        <i class="ri-map-pin-line" style="font-size: 1.2rem; color: var(--primary-brand);"></i>
-                    </div>
                     <div>
                         <div class="detail-label">Location</div>
                         <div class="detail-value"><?php echo htmlspecialchars($location); ?></div>
@@ -93,9 +90,6 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
                 
                 <!-- Description -->
                 <div class="detail-section">
-                    <div class="detail-icon" style="background: var(--glass-bg); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
-                        <i class="ri-file-text-line" style="font-size: 1.2rem; color: var(--primary-brand);"></i>
-                    </div>
                     <div>
                         <div class="detail-label">Description</div>
                         <div class="detail-value"><?php echo nl2br(htmlspecialchars($item['description'])); ?></div>
@@ -105,7 +99,7 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
                 <!-- Actions -->
                 <div style="margin-top: 2rem;">
                     <div style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 1rem;">ACTIONS</div>
-                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
                         <?php 
                         $currentUserId = getCurrentUserId();
                         $isOwner = ($item['user_id'] == $currentUserId);
@@ -113,20 +107,20 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
                         if ($isOwner): 
                         ?>
                             <!-- Edit Report Button -->
-                            <a href="edit_item.php?type=<?php echo $type; ?>&id=<?php echo $item['id']; ?>" class="btn-pill btn-primary" style="flex: 1;">
+                            <a href="edit_item.php?type=<?php echo $type; ?>&id=<?php echo $item['id']; ?>" class="btn-pill btn-primary" style="padding: 0.8rem 2rem;">
                                 Edit Report
                             </a>
                             
-                            <!-- Delete Button -->
+                            <!-- Delete Link -->
                             <a href="handlers/manage_item.php?action=delete&type=<?php echo $type; ?>&id=<?php echo $item['id']; ?>&csrf_token=<?php echo generateCsrfToken(); ?>" 
                                onclick="return confirm('Are you sure you want to delete this report?');"
-                               class="btn-pill btn-outline" style="flex: 1; color: var(--status-lost-text); border-color: var(--status-lost-text);">
+                               style="color: var(--status-lost-text); font-weight: 600; font-size: 0.95rem;">
                                 Delete
                             </a>
                         <?php endif; ?>
                         
                         <!-- Share Button -->
-                        <button class="btn-pill btn-outline" style="flex: 1;" onclick="navigator.share ? navigator.share({title: '<?php echo htmlspecialchars($item['item_name']); ?>', url: window.location.href}) : navigator.clipboard.writeText(window.location.href).then(() => alert('Link copied!'))">
+                        <button class="btn-pill" style="background: #F1F5F9; color: var(--text-head); border: none; padding: 0.8rem 2.5rem; margin-left: auto;" onclick="navigator.share ? navigator.share({title: '<?php echo htmlspecialchars($item['item_name']); ?>', url: window.location.href}) : navigator.clipboard.writeText(window.location.href).then(() => alert('Link copied!'))">
                             Share
                         </button>
                     </div>

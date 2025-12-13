@@ -13,6 +13,9 @@ require_once 'init.php';
     <meta name="description" content="EWU Lost & Found - The official lost and found platform for East West University. Report and find lost items easily.">
     <title>EWU Lost & Found - Reuniting You With What Matters</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600&family=Sedgwick+Ave&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -20,11 +23,13 @@ require_once 'init.php';
 
     <header class="hero">
         <div class="container">
-            <h1>Lost or Found Something<br><span class="highlight">on Campus?</span></h1>
-            <p>An official digital platform for reporting and recovering lost items within the East West University campus.</p>
+            <h1>Lost or Found Something <br><span>on Campus?</span></h1>
+            <p style="font-family: 'Inter', sans-serif; letter-spacing: 0;">An official digital platform for reporting and recovering lost items within the East West University campus.</p>
             
             <form action="lost.php" method="GET" class="search-wrapper">
-                <span class="search-icon">🔍</span>
+                <span class="search-icon">
+                    <i class="ri-search-line"></i>
+                </span>
                 <input type="text" name="search" class="search-input" placeholder="Search lost items...">
             </form>
         </div>
@@ -32,11 +37,11 @@ require_once 'init.php';
 
     <main class="container">
         <div class="section-header">
-            <div>
-                <h2>Latest Reports</h2>
-                <p>lost and found items.</p>
+            <div class="header-content">
+                <h2>Latest Report</h2>
+                <p>Real-time feed of lost and found items.</p>
             </div>
-            <a href="lost.php" class="view-all">View All →</a>
+            <a href="reports.php" class="view-all">view all</a>
         </div>
         
         <div class="items-grid">

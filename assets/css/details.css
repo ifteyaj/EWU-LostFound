@@ -1,0 +1,121 @@
+/* --- Item Detail Page --- */
+.back-link {
+    display: inline-block;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    color: var(--text-body);
+}
+
+.back-link:hover {
+    color: var(--primary-brand);
+}
+
+.detail-card {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid #E2E8F0;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr;
+    /* Mobile First */
+}
+
+.detail-image {
+    position: relative;
+    height: 300px;
+    background: #f8fafc;
+    overflow: hidden;
+}
+
+.detail-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.detail-info {
+    padding: 2rem;
+}
+
+.detail-title {
+    font-size: 2rem;
+    color: var(--text-head);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.detail-section {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    align-items: flex-start;
+}
+
+.detail-icon {
+    width: 48px;
+    height: 48px;
+    background: #F1F5F9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.detail-icon i {
+    font-size: 1.25rem;
+    color: var(--primary-brand);
+}
+
+.detail-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+    letter-spacing: 0.5px;
+}
+
+.detail-value {
+    font-size: 1rem;
+    color: var(--text-head);
+    line-height: 1.5;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+    .detail-card {
+        grid-template-columns: 1fr 1fr;
+        /* 50% split */
+        align-items: stretch;
+        /* Ensure equal height */
+    }
+
+    .detail-image {
+        height: auto;
+        /* Allow height to adapt to content */
+        min-height: 0;
+        /* Remove restriction so it can shrink */
+        border-right: 1px solid #E2E8F0;
+        position: relative;
+        /* Ensure absolute image fits */
+    }
+
+    .detail-image img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    .detail-info {
+        padding: 1.5rem 2rem;
+        /* Reduce vertical padding */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 280px;
+        /* Ensure a minimum reasonable height for the card */
+    }
+}

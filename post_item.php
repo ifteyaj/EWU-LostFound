@@ -203,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <?php include 'includes/navbar.php'; ?>
 
-    <div class="container" style="padding-top: 8rem; padding-bottom: 4rem;">
+    <div class="container" style="padding-top: 10rem; padding-bottom: 4rem;">
         <div class="report-form-card">
             <!-- Header -->
             <div class="report-header">

@@ -66,7 +66,7 @@ $user = getCurrentUser();
 <body>
     <?php include 'includes/navbar.php'; ?>
 
-    <div class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+    <div class="container" style="padding-top: 10rem; padding-bottom: 4rem;">
         <div class="profile-header">
             <div class="profile-avatar">
                 <?php echo strtoupper(substr($user['full_name'], 0, 1)); ?>

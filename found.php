@@ -20,7 +20,7 @@ requireLogin();
 <body>
     <?php include 'includes/navbar.php'; ?>
 
-    <div class="container" style="padding-top: 3rem; padding-bottom: 5rem;">
+    <div class="container" style="padding-top: 10rem; padding-bottom: 5rem;">
         <div class="section-header" style="margin-bottom: 2rem;">
             <div>
                 <h2>Found Items</h2>

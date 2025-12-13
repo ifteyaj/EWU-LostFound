@@ -1,56 +1,41 @@
-/* EWU Lost & Found - Glassmorphism Design System */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* EWU Lost & Found - Custom Design System */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&family=Sedgwick+Ave&display=swap');
 @import url('https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css');
+@import url('dropdown.css');
+@import url('details.css');
 
 :root {
-    /* 1. Global Variables & Theme */
-    --font-main: 'Poppins', sans-serif;
+    /* Fonts */
+    --font-main: 'Inter', sans-serif;
+    --font-display: 'Sedgwick Ave', cursive;
 
     /* Colors */
     --primary-brand: #23336A;
     /* Deep Academic Blue */
-    --primary-brand-rgb: 35, 51, 106;
+    --accent-yellow: #FFC107;
+    /* Hero Text Yellow */
+    --white: #FFFFFF;
+    --border-light: #E2E8F0;
 
-    /* Text Colors (Light Mode) */
-    --text-head: #0F172A;
+    /* Text Colors */
+    --text-head: #1e293b;
     --text-body: #64748B;
+    --text-secondary: #64748B;
+    --text-white: #FFFFFF;
     --text-muted: #94A3B8;
 
     /* Backgrounds */
     --bg-body: #FFFFFF;
-    --bg-gradient: radial-gradient(circle at top center, rgba(199, 210, 254, 0.5) 0%, transparent 60%);
 
     /* Status Colors */
-    --status-lost-bg: #FEF2F2;
-    --status-lost-text: #DC2626;
-    --status-found-bg: #F0FDF4;
-    --status-found-text: #16A34A;
+    --status-lost-text: #EF4444;
+    /* Red */
+    --status-found-text: #10B981;
+    /* Green */
 
-    /* UI Dimensions */
-    --radius-pill: 9999px;
-    --radius-card: 24px;
-    --radius-input: 12px;
-
-    /* Glass Effect Variables (Light Mode) */
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.6);
-    --glass-shadow: 0 10px 40px rgba(35, 51, 106, 0.1);
-    --glass-blur: 16px;
-}
-
-/* Dark Mode Variables */
-body.dark {
-    --text-head: #FFFFFF;
-    --text-body: #94A3B8;
-
-    --bg-body: #0B1121;
-    /* Obsidian */
-    --bg-gradient: radial-gradient(circle at top center, rgba(35, 51, 106, 0.3) 0%, transparent 70%);
-
-    /* Glass Effect Variables (Dark Mode) */
-    --glass-bg: rgba(11, 17, 33, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    /* Dimensions */
+    --radius-pill: 100px;
+    --radius-card: 20px;
 }
 
 /* Base Reset */
@@ -62,9 +47,6 @@ body.dark {
 
 body {
     background-color: var(--bg-body);
-    background-image: var(--bg-gradient);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
     color: var(--text-body);
     font-family: var(--font-main);
     line-height: 1.6;
@@ -81,7 +63,6 @@ h5,
 h6 {
     color: var(--text-head);
     font-weight: 700;
-    letter-spacing: -0.5px;
 }
 
 a {
@@ -90,17 +71,6 @@ a {
     transition: all 0.3s ease;
 }
 
-/* 2. The "Glass Panel" Utility */
-.glass-panel {
-    background: var(--glass-bg);
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-    border-radius: var(--radius-card);
-}
-
-/* Utilities */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -108,28 +78,146 @@ a {
     width: 100%;
 }
 
-/* 3. Navigation Bar (Floating Pill) */
+/* --- Hero Section --- */
+.hero {
+    width: 100%;
+    height: 90vh;
+    /* Full viewport height minus some spacing */
+    min-height: 600px;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/EWU-LostFound/assets/img/ewu_campus_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 0;
+    /* Remove margins to make it full width */
+    padding: 0;
+    border-radius: 0;
+    /* Remove border radius for full bleed */
+    margin-bottom: 2rem;
+    /* Space between hero and content */
+}
+
+.hero .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+    padding-top: 60px;
+    /* Offset for visual balance */
+}
+
+.hero h1 {
+    font-family: 'Sedgwick Ave', cursive;
+    /* Explicit font family */
+    font-size: 4.5rem;
+    line-height: 1.2;
+    color: #FFC107;
+    /* Explicit Yellow Color */
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-weight: 400;
+    letter-spacing: 1px;
+    /* Sedgwick Ave is already bold-ish */
+    transform: rotate(-2deg);
+    /* Slight tilt like mockup? Optional, maybe keep straight for now. Mockup text looks slightly hand-written style. */
+}
+
+.hero h1 span {
+    font-size: 5rem;
+    display: block;
+    color: #FFC107;
+}
+
+.hero p {
+    font-family: 'Inter', sans-serif;
+    color: #FFFFFF;
+    /* Explicit White */
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin-bottom: 3rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    line-height: 1.5;
+    font-weight: 500;
+    letter-spacing: -2px;
+    /* User requested tight spacing */
+}
+
+/* Search Bar in Hero */
+.search-wrapper {
+    position: relative;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.search-input {
+    width: 100%;
+    padding: 1.2rem 2rem 1.2rem 3.5rem;
+    /* Left padding for icon */
+    border-radius: 50px;
+    border: 1px solid #E2E8F0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    text-align: left;
+    color: #334155;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    background: #ffffff;
+    box-shadow: none;
+    border-color: var(--primary-brand);
+}
+
+.search-input::placeholder {
+    color: #64748B;
+}
+
+.search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: var(--primary-brand);
+    z-index: 2;
+}
+
+
+/* --- Navbar --- */
 .navbar {
     position: fixed;
-    top: 24px;
+    top: 30px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
     max-width: 1100px;
-    height: 72px;
-    z-index: 1000;
-
-    /* Glass Style Applied directly here */
-    background: var(--glass-bg);
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
+    height: 80px;
+    background: #ffffff;
     border-radius: var(--radius-pill);
-
+    box-shadow: none;
+    border: 1px solid #E2E8F0;
+    z-index: 1000;
     display: flex;
     align-items: center;
-    padding: 0 1.5rem;
+    padding: 0 2rem;
+    transition: transform 0.3s ease;
+}
+
+.navbar--hidden {
+    transform: translate(-50%, -150%);
 }
 
 .navbar .container {
@@ -140,445 +228,266 @@ a {
     padding: 0;
 }
 
-.nav-links {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-    list-style: none;
-    margin-left: auto;
-    /* Push to right */
-}
-
-/* Flex layout for Logo Area */
-.logo-item a {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 700;
-    font-size: 1.2rem;
-    color: var(--primary-brand);
-}
-
 .logo-item img {
-    height: 40px;
+    height: 55px;
     width: auto;
 }
 
-.nav-links li {
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
     list-style: none;
 }
 
-.nav-links a.nav-link {
-    color: var(--text-body);
-    font-weight: 500;
-    font-size: 0.95rem;
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-pill);
-}
-
-.nav-links a.nav-link:hover,
-.nav-links a.nav-link.active {
-    color: var(--primary-brand);
-    background: rgba(35, 51, 106, 0.05);
-}
-
-/* 3b. Buttons */
-.btn-pill {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    border-radius: 50px;
+.nav-link {
     font-weight: 600;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: none;
+    font-size: 0.9rem;
+    color: #64748B;
 }
 
-.btn-pill.btn-primary {
-    background-color: var(--primary-brand);
-    color: white !important;
-    box-shadow: 0 4px 12px rgba(35, 51, 106, 0.2);
-}
-
-.btn-pill:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(35, 51, 106, 0.3);
-}
-
-.btn-pill:active {
-    transform: scale(0.95);
-}
-
-.btn-pill.btn-outline {
-    background: transparent;
-    border: 1px solid #E2E8F0;
-    color: var(--text-head);
-}
-
-.btn-pill.btn-outline:hover {
-    border-color: var(--primary-brand);
+.nav-link:hover,
+.nav-link.active {
     color: var(--primary-brand);
 }
 
-/* 3c. Item Cards */
+/* Action Buttons */
+.btn-pill {
+    padding: 0.8rem 1.8rem;
+    border-radius: var(--radius-pill);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: transform 0.2s;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: var(--primary-brand);
+    color: #fff !important;
+}
+
+.btn-primary:hover {
+    background-color: #1a2652;
+}
+
+
+/* --- Sections --- */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+}
+
+.section-header h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+    /* Extra bold */
+    color: #23336a;
+}
+
+.section-header p {
+    font-size: 0.95rem;
+    color: #64748B;
+    line-height: 1.2;
+    /* Tighter line spacing */
+    margin-top: 0.25rem;
+}
+
+.view-all {
+    font-weight: 600;
+    color: #64748B;
+    font-size: 1rem;
+}
+
+.view-all:hover {
+    color: var(--primary-brand);
+}
+
+/* --- Items Grid --- */
 .items-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 2rem;
-    margin-bottom: 4rem;
+    padding-bottom: 4rem;
 }
 
 .item-card {
-    /* Glass Panel Styles */
-    background: var(--glass-bg);
-    backdrop-filter: blur(var(--glass-blur));
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
+    background: #ffffff;
     border-radius: var(--radius-card);
-
     overflow: hidden;
-    position: relative;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Unified card look */
     display: flex;
     flex-direction: column;
-}
-
-.item-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(35, 51, 106, 0.15);
+    text-align: left;
+    box-shadow: none;
+    /* Subtle shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #E2E8F0;
+    /* Subtle border */
 }
 
 .card-img {
-    height: 220px;
-    /* Approximate 50% feel */
-    width: 100%;
-    overflow: hidden;
     position: relative;
-    background: #f1f5f9;
-}
-
-/* Profile specific square override */
-.profile-items-grid .item-card .card-img {
-    height: auto !important;
-    aspect-ratio: 1 / 1 !important;
+    height: 250px;
+    overflow: hidden;
+    /* Removed border-radius so it fits the container */
 }
 
 .card-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.3s ease;
+}
+
+.item-card:hover {
+    transform: translateY(-5px);
+    box-shadow: none;
+    border-color: var(--primary-brand);
 }
 
 .item-card:hover .card-img img {
     transform: scale(1.05);
-    /* Zoom effect */
 }
 
 .status-badge {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    padding: 0.4rem 1rem;
+    top: 15px;
+    right: 15px;
+    background: #ffffff;
+    padding: 6px 16px;
     border-radius: var(--radius-pill);
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: 800;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    z-index: 2;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
+    border: 1px solid #E2E8F0;
 }
 
 .status-lost {
-    background: var(--status-lost-bg);
     color: var(--status-lost-text);
 }
 
 .status-found {
-    background: var(--status-found-bg);
     color: var(--status-found-text);
 }
 
+
+/* Hide standard details for now to match the minimal mockup feed, 
+   or Keep them but style them minimalistically? 
+   The mockup shows ONLY images in the grid primarily. 
+   Actually, the mockup crop shows the bottom of the section is just images.
+   Wait, the user said "latest lost&found item gride". 
+   Let's keep the details but make them cleaner if they exist. 
+   If the mockup shows just images, I should probably hide the text or make it very subtle.
+   I'll stick to a clean card with image + minimal info below if needed.
+   Current `index.php` prints `.card-content`. I won't delete it from CSS but I'll style it simple.
+*/
+
+/* Card Details */
 .card-content {
-    padding: 1.5rem;
     display: flex;
     flex-direction: column;
+    padding: 1.5rem;
     flex-grow: 1;
-    /* details take remaining space */
 }
 
 .card-category {
     font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--primary-brand);
+    color: #94A3B8;
     text-transform: uppercase;
-    margin-bottom: 0.5rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
 }
 
 .card-title {
-    font-size: 1.15rem;
+    font-size: 1rem;
+    font-weight: 700;
     color: var(--text-head);
-    margin-bottom: 1rem;
-    line-height: 1.4;
+    margin-bottom: 0.5rem;
 }
 
 .card-meta {
-    margin-top: auto;
-    /* Push to bottom */
     display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #94A3B8;
 }
 
-.card-meta span {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.85rem;
+/* Empty State */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    background: #F8FAFC;
+    border-radius: var(--radius-card);
     color: var(--text-body);
 }
 
-/* 3d. Forms */
-.form-card {
-    /* Center it */
-    max-width: 600px;
-    margin: 0 auto;
-
-    /* Glass Panel */
-    background: var(--glass-bg);
-    backdrop-filter: blur(var(--glass-blur));
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-    border-radius: 32px;
-    /* Extra round */
-    padding: 3rem;
+/* --- Footer --- */
+footer {
+    margin-top: auto;
+    background: #fff;
+    padding: 2rem;
+    text-align: center;
+    border-top: 1px solid #f1f5f9;
 }
 
-.form-group {
-    margin-bottom: 1.5rem;
+/* Form Styles Override for other pages (keep functional) */
+.form-card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: var(--radius-card);
+    box-shadow: none;
+    border: 1px solid #E2E8F0;
+    max-width: 600px;
+    margin: 4rem auto;
 }
 
 .form-group label {
-    display: block;
     margin-bottom: 0.5rem;
+    display: block;
     font-weight: 600;
-    color: var(--text-head);
-    font-size: 0.9rem;
 }
 
 .form-group input,
-.form-group select,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
     width: 100%;
-    padding: 12px 20px;
-    /* Spec padding */
-    border-radius: var(--radius-input);
-    border: 1px solid transparent;
-    /* Transparent border initially */
-    background: #F8FAFC;
-    color: var(--text-head);
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
     font-family: var(--font-main);
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--primary-brand);
-    background: #ffffff;
-    box-shadow: 0 0 0 3px rgba(35, 51, 106, 0.1);
 }
 
 .upload-area {
-    border: 2px dashed #E2E8F0;
-    border-radius: var(--radius-card);
+    border: 2px dashed #e2e8f0;
     padding: 2rem;
     text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: #F8FAFC;
-    display: block;
-}
-
-.upload-area:hover {
-    border-color: var(--primary-brand);
-    background: rgba(35, 51, 106, 0.02);
-}
-
-/* Hero Section */
-.hero {
-    margin-top: 100px;
-    margin-left: max(1.5rem, calc((100% - 1200px) / 2));
-    margin-right: max(1.5rem, calc((100% - 1200px) / 2));
-    padding: 8rem 2rem;
-    text-align: center;
-    background-image: url('/EWU-LostFound/assets/img/ewu_campus_bg.jpg');
-    background-size: cover;
-    background-position: center;
-    border-radius: 32px;
-    box-shadow: var(--glass-shadow);
-}
-
-.hero h1 {
-    font-size: 3.5rem;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-    color: var(--text-head);
-}
-
-.hero p {
-    font-size: 1.25rem;
-    color: var(--text-body);
-    max-width: 600px;
-    margin: 0 auto 3rem;
-}
-
-/* Search Wrapper (in Hero or Listing) */
-.search-wrapper {
-    position: relative;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.search-input {
-    width: 100%;
-    padding: 16px 24px 16px 50px;
-    border-radius: 50px;
-    border: 1px solid var(--glass-border);
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    font-size: 1rem;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-}
-
-.search-input:focus {
-    outline: none;
-    box-shadow: 0 10px 40px rgba(35, 51, 106, 0.15);
-    border-color: var(--primary-brand);
-}
-
-.search-icon {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.2rem;
-    color: var(--primary-brand);
-}
-
-/* Section H2 */
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 3rem;
-    position: relative;
-    padding-bottom: 1rem;
-}
-
-.section-header::after {
-    /* Decorative underline */
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 60px;
-    height: 4px;
-    background: var(--primary-brand);
-    border-radius: 2px;
-}
-
-/* Detail Page */
-.detail-card {
-    /* Glass Panel */
-    background: var(--glass-bg);
-    backdrop-filter: blur(var(--glass-blur));
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-    border-radius: var(--radius-card);
-
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    overflow: hidden;
-}
-
-.detail-image {
-    background: #f1f5f9;
-    min-height: 500px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.detail-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.detail-info {
-    padding: 4rem;
-}
-
-.detail-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    line-height: 1.3;
-}
-
-.detail-section {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
-    padding-bottom: 1.25rem;
-    border-bottom: 1px solid var(--glass-border);
-}
-
-.back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--text-body);
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-    transition: color 0.3s ease;
+    border-radius: 12px;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .navbar {
         width: 95%;
-        top: 10px;
+        padding: 0 1rem;
     }
 
-    .detail-card {
-        grid-template-columns: 1fr;
-    }
-
-    .items-grid {
-        grid-template-columns: 1fr;
+    .nav-links {
+        gap: 1rem;
     }
 
     .hero h1 {
-        font-size: 2.5rem;
+        font-size: 3rem;
     }
-}
 
-/* Footer Stickiness */
-footer {
-    margin-top: auto;
-    background: var(--glass-bg);
-    border-top: 1px solid var(--glass-border);
-    padding: 3rem 0;
-    text-align: center;
-    color: var(--text-muted);
+    .hero h1 span {
+        font-size: 3.5rem;
+    }
 }
