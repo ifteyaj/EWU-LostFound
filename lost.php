@@ -27,29 +27,33 @@ requireLogin();
                 <p>Browsable list of all items reported missing.</p>
             </div>
             
-            <form action="" method="GET" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-                <select name="category" class="form-control" style="width: auto; padding: 0.75rem;">
-                    <option value="">All Categories</option>
-                    <?php 
-                    $selectedCat = $_GET['category'] ?? '';
-                    foreach (ITEM_CATEGORIES as $cat): ?>
-                        <option value="<?php echo htmlspecialchars($cat); ?>" <?php echo ($selectedCat == $cat) ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($cat); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                
-                <div class="search-wrapper" style="margin:0; width:250px;">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" name="search" class="search-input" value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>" placeholder="Search items..." style="padding: 0.75rem 1rem 0.75rem 2.5rem;">
-                </div>
-                
-                <button type="submit" class="btn-pill btn-primary" style="padding: 0.75rem 1.5rem; border-radius: 12px; font-size: 0.9rem;">Filter</button>
-                
-                <?php if(!empty($_GET['search']) || !empty($_GET['category'])): ?>
-                    <a href="lost.php" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">Clear</a>
-                <?php endif; ?>
-            </form>
+            <div class="glass-panel" style="padding: 1.5rem; display: inline-block; width: 100%;">
+                <form action="" method="GET" style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 200px;">
+                        <div class="search-wrapper" style="margin: 0; max-width: 100%;">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" name="search" class="search-input" value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>" placeholder="Search lost items..." style="border: 1px solid var(--glass-border); padding-left: 3rem;">
+                        </div>
+                    </div>
+                    
+                    <select name="category" style="padding: 1rem 2rem; border-radius: 50px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.8); cursor: pointer; outline: none; min-width: 180px;">
+                        <option value="">All Categories</option>
+                        <?php 
+                        $selectedCat = $_GET['category'] ?? '';
+                        foreach (ITEM_CATEGORIES as $cat): ?>
+                            <option value="<?php echo htmlspecialchars($cat); ?>" <?php echo ($selectedCat == $cat) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($cat); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    
+                    <button type="submit" class="btn-pill btn-primary" style="padding: 0.8rem 2rem;">Filter</button>
+                    
+                    <?php if(!empty($_GET['search']) || !empty($_GET['category'])): ?>
+                        <a href="lost.php" style="color: var(--text-muted); font-weight: 500; font-size: 0.9rem; padding: 0 1rem;">Clear Filters</a>
+                    <?php endif; ?>
+                </form>
+            </div>
         </div>
 
         <div class="items-grid">

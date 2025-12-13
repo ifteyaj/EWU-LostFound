@@ -20,8 +20,8 @@ require_once 'init.php';
 
     <header class="hero">
         <div class="container">
-            <h1><em>Reuniting You With</em><br><span class="highlight"><em>What Matters.</em></span></h1>
-            <p>The official decentralized lost and found layer for East West University. Secure, transparent, and built for students.</p>
+            <h1>Lost or Found Something<br><span class="highlight">on Campus?</span></h1>
+            <p>An official digital platform for reporting and recovering lost items within the East West University campus.</p>
             
             <form action="lost.php" method="GET" class="search-wrapper">
                 <span class="search-icon">🔍</span>
@@ -34,7 +34,7 @@ require_once 'init.php';
         <div class="section-header">
             <div>
                 <h2>Latest Reports</h2>
-                <p>Real-time feed of lost and found items.</p>
+                <p>lost and found items.</p>
             </div>
             <a href="lost.php" class="view-all">View All →</a>
         </div>
@@ -83,7 +83,6 @@ require_once 'init.php';
             }
             ?>
         </div>
-    </main>
     </main>
     <?php include 'includes/footer.php'; ?>
 </body>

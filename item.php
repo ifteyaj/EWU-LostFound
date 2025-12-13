@@ -65,75 +65,68 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
                 <?php if($img_src): ?>
                     <img src="<?php echo $img_src; ?>" alt="<?php echo htmlspecialchars($item['item_name']); ?>">
                 <?php else: ?>
-                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-weight:500;">No Image Available</div>
+                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-weight:500; font-size: 1.2rem;">No Image Available</div>
                 <?php endif; ?>
                 <span class="status-badge <?php echo $badge_class; ?>"><?php echo $badge_text; ?></span>
             </div>
             
             <div class="detail-info">
-                <div class="detail-header">
-                    <div class="detail-category"><?php echo htmlspecialchars($item['category']); ?></div>
-                    <div class="detail-date"><?php echo date('d F, Y', strtotime($event_date)); ?></div>
+                <!-- Category & Date Header -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <span style="color: var(--primary-brand); font-weight: 600; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px;"><?php echo htmlspecialchars($item['category']); ?></span>
+                    <span style="color: #f97316; font-weight: 500; font-size: 0.9rem;"><?php echo date('d F, Y', strtotime($event_date)); ?></span>
                 </div>
                 
+                <!-- Item Title -->
                 <h1 class="detail-title"><?php echo htmlspecialchars($item['item_name']); ?></h1>
                 
+                <!-- Location -->
                 <div class="detail-section">
-                    <div class="detail-icon">📍</div>
+                    <div class="detail-icon" style="background: var(--glass-bg); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                        <i class="ri-map-pin-line" style="font-size: 1.2rem; color: var(--primary-brand);"></i>
+                    </div>
                     <div>
                         <div class="detail-label">Location</div>
                         <div class="detail-value"><?php echo htmlspecialchars($location); ?></div>
                     </div>
                 </div>
                 
+                <!-- Description -->
                 <div class="detail-section">
-                    <div class="detail-icon">≡</div>
+                    <div class="detail-icon" style="background: var(--glass-bg); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                        <i class="ri-file-text-line" style="font-size: 1.2rem; color: var(--primary-brand);"></i>
+                    </div>
                     <div>
                         <div class="detail-label">Description</div>
                         <div class="detail-value"><?php echo nl2br(htmlspecialchars($item['description'])); ?></div>
                     </div>
                 </div>
 
-                <div class="detail-actions">
-                    <div class="detail-actions-label">ACTIONS</div>
-                    <!-- University Office Instruction (Visible to All) -->
-                    <div style="background: var(--bg-light); border: 1px solid var(--border-light); padding: 1.5rem; border-radius: 12px; text-align: center; width: 100%; margin-bottom: 1rem;">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏛️</div>
-                        <h3 style="font-size: 1.1rem; color: var(--primary-navy); margin-bottom: 0.5rem;">University Lost & Found Office</h3>
-                        <p style="color: var(--text-secondary); margin: 0; font-size: 0.95rem; line-height: 1.5;">
-                            <?php if($type == 'lost'): ?>
-                                <strong style="color: var(--text-dark);">Found this item?</strong><br>
-                                Please hand it over to the <strong>Registrar's Office</strong> so the owner can collect it safely.
-                            <?php else: ?>
-                                <strong style="color: var(--text-dark);">Is this yours?</strong><br>
-                                Please visit the <strong>Registrar's Office</strong> to verify ownership and claim your item.
-                            <?php endif; ?>
-                        </p>
-                    </div>
-
-                    <div class="detail-buttons">
+                <!-- Actions -->
+                <div style="margin-top: 2rem;">
+                    <div style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 1rem;">ACTIONS</div>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
                         <?php 
                         $currentUserId = getCurrentUserId();
                         $isOwner = ($item['user_id'] == $currentUserId);
                         
                         if ($isOwner): 
                         ?>
-                            <!-- Owner Actions -->
-                            <a href="handlers/manage_item.php?action=delete&type=<?php echo $type; ?>&id=<?php echo $item['id']; ?>&csrf_token=<?php echo generateCsrfToken(); ?>" 
-                               onclick="return confirm('Are you sure you want to delete this report? This action cannot be undone.');"
-                               class="btn-pill btn-lg" style="background-color: var(--status-lost-bg); border-color: var(--status-lost-bg); color: white;">
-                                Delete Report
+                            <!-- Edit Report Button -->
+                            <a href="edit_item.php?type=<?php echo $type; ?>&id=<?php echo $item['id']; ?>" class="btn-pill btn-primary" style="flex: 1;">
+                                Edit Report
                             </a>
                             
-                            <?php if($item['status'] != 'resolved'): ?>
-                                <a href="handlers/manage_item.php?action=resolve&type=<?php echo $type; ?>&id=<?php echo $item['id']; ?>&csrf_token=<?php echo generateCsrfToken(); ?>"
-                                   class="btn-pill btn-lg" style="background-color: var(--status-found-bg); border-color: var(--status-found-bg); color: white;">
-                                    Mark as <?php echo ($type == 'lost') ? 'Found' : 'Returned'; ?>
-                                </a>
-                            <?php endif; ?>
+                            <!-- Delete Button -->
+                            <a href="handlers/manage_item.php?action=delete&type=<?php echo $type; ?>&id=<?php echo $item['id']; ?>&csrf_token=<?php echo generateCsrfToken(); ?>" 
+                               onclick="return confirm('Are you sure you want to delete this report?');"
+                               class="btn-pill btn-outline" style="flex: 1; color: var(--status-lost-text); border-color: var(--status-lost-text);">
+                                Delete
+                            </a>
                         <?php endif; ?>
-
-                        <button class="btn-pill btn-outline" onclick="navigator.share ? navigator.share({title: '<?php echo htmlspecialchars($item['item_name']); ?>', url: window.location.href}) : alert('Link copied!')">
+                        
+                        <!-- Share Button -->
+                        <button class="btn-pill btn-outline" style="flex: 1;" onclick="navigator.share ? navigator.share({title: '<?php echo htmlspecialchars($item['item_name']); ?>', url: window.location.href}) : navigator.clipboard.writeText(window.location.href).then(() => alert('Link copied!'))">
                             Share
                         </button>
                     </div>
