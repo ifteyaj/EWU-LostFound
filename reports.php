@@ -242,5 +242,6 @@ requireLogin();
         </div>
         <?php endif; ?>
     </div>
+    <?php include 'includes/footer.php'; ?>
 </body>
 </html>

@@ -41,7 +41,7 @@ require_once 'init.php';
                 <h2>Latest Report</h2>
                 <p>Real-time feed of lost and found items.</p>
             </div>
-            <a href="reports.php" class="view-all">view all</a>
+            <a href="reports.php" class="view-all">View all</a>
         </div>
         
         <div class="items-grid">
@@ -88,6 +88,52 @@ require_once 'init.php';
             }
             ?>
         </div>
+
+        <!-- How It Works Section -->
+        <section style="margin-top: 5rem; margin-bottom: 5rem;">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h2 style="font-size: 2rem; font-weight: 800; color: #23336a; margin-bottom: 0.75rem;">How It Works</h2>
+                <p style="color: var(--text-secondary); font-size: 1rem;">Simple steps to find or report items</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                <!-- Step 1 -->
+                <div style="text-align: center; padding: 2rem 1.5rem;">
+                    <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <i class="ri-login-circle-line" style="font-size: 2rem; color: white;"></i>
+                    </div>
+                    <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-head); margin-bottom: 0.75rem;">Sign in with Student Email</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">Only verified EWU students can access the platform.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div style="text-align: center; padding: 2rem 1.5rem;">
+                    <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <i class="ri-file-add-line" style="font-size: 2rem; color: white;"></i>
+                    </div>
+                    <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-head); margin-bottom: 0.75rem;">Report Lost or Found Item</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">Submit item details with optional image.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div style="text-align: center; padding: 2rem 1.5rem;">
+                    <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <i class="ri-search-2-line" style="font-size: 2rem; color: white;"></i>
+                    </div>
+                    <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-head); margin-bottom: 0.75rem;">Browse & Search Listings</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">Find matching items using filters.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div style="text-align: center; padding: 2rem 1.5rem;">
+                    <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                        <i class="ri-mail-send-line" style="font-size: 2rem; color: white;"></i>
+                    </div>
+                    <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-head); margin-bottom: 0.75rem;">Contact & Recover</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">Reach out securely to recover the item.</p>
+                </div>
+            </div>
+        </section>
     </main>
     <?php include 'includes/footer.php'; ?>
 </body>

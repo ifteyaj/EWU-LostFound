@@ -117,6 +117,19 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
                                style="color: var(--status-lost-text); font-weight: 600; font-size: 0.95rem;">
                                 Delete
                             </a>
+                        <?php else: ?>
+                            <!-- Contact Button for Non-Owners -->
+                            <?php
+                            // Get the reporter's info
+                            $reporterStmt = $conn->prepare("SELECT full_name, email, student_id FROM users WHERE id = ?");
+                            $reporterStmt->bind_param("i", $item['user_id']);
+                            $reporterStmt->execute();
+                            $reporter = $reporterStmt->get_result()->fetch_assoc();
+                            ?>
+                            <a href="mailto:<?php echo htmlspecialchars($reporter['email']); ?>?subject=Regarding <?php echo urlencode($item['item_name']); ?>" 
+                               class="btn-pill btn-primary" style="padding: 0.8rem 2rem;">
+                                Contact <?php echo $type == 'found' ? 'Finder' : 'Reporter'; ?>
+                            </a>
                         <?php endif; ?>
                         
                         <!-- Share Button -->
@@ -128,5 +141,6 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
             </div>
         </div>
     </div>
+    <?php include 'includes/footer.php'; ?>
 </body>
 </html>
