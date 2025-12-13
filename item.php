@@ -26,6 +26,7 @@ $badge_class = ($type == 'found') ? 'status-found' : 'status-lost';
 $badge_text = ($type == 'found') ? 'FOUND' : 'LOST';
 
 if ($conn && !$conn->connect_error) {
+    // Fetch item details
     $stmt = $conn->prepare("SELECT * FROM $table WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -37,6 +38,61 @@ if ($conn && !$conn->connect_error) {
 
 if (!$item) {
     showError(404, "Item not found.");
+}
+
+// Handle Contact Form Submission
+$successMessage = '';
+$errorMessage = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_message'])) {
+    // Verify CSRF Token
+    if (!isset($_POST['csrf_token']) || !verifyCsrfToken($_POST['csrf_token'])) {
+        $errorMessage = "Invalid security token. Please try again.";
+    } else {
+        $subject = trim($_POST['subject']);
+        $message = trim($_POST['message']);
+        
+        if (empty($subject) || empty($message)) {
+            $errorMessage = "Please fill in all fields.";
+        } else {
+            // Fetch reporter email securely
+            $reporterStmt = $conn->prepare("SELECT email, full_name FROM users WHERE id = ?");
+            $reporterStmt->bind_param("i", $item['user_id']);
+            $reporterStmt->execute();
+            $reporterResult = $reporterStmt->get_result();
+            
+            if ($reporterResult->num_rows > 0) {
+                $reporterData = $reporterResult->fetch_assoc();
+                $to = $reporterData['email'];
+                
+                // Get current user info for "From" header (or logic)
+                $currentUser = getCurrentUser();
+                $fromEmail = $currentUser['email'];
+                $fromName = getUserDisplayName();
+                
+                // Construct Email
+                $emailSubject = "[EWU Lost&Found] $subject";
+                $emailBody = "You have received a new message regarding your item: " . $item['item_name'] . "\n\n";
+                $emailBody .= "From: $fromName ($fromEmail)\n\n";
+                $emailBody .= "Message:\n$message\n\n";
+                $emailBody .= "--------------------------------------------------\n";
+                $emailBody .= "This email was sent via EWU Lost & Found Portal.";
+                
+                $headers = "From: no-reply@ewulostfound.com\r\n"; // Standard practice to send from system
+                $headers .= "Reply-To: $fromEmail\r\n";
+                $headers .= "X-Mailer: PHP/" . phpversion();
+                
+                // Send Email
+                if (mail($to, $emailSubject, $emailBody, $headers)) {
+                    $successMessage = "Message sent to the owner successfully!";
+                } else {
+                    $errorMessage = "Failed to send email. Please try again later. (Note: Localhost may not send emails)";
+                }
+            } else {
+                $errorMessage = "Reporter not found.";
+            }
+        }
+    }
 }
 
 $img_src = !empty($item['image']) ? 'uploads/' . htmlspecialchars($item['image']) : '';
@@ -51,6 +107,7 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
     <title><?php echo htmlspecialchars($item['item_name']); ?> - EWU Lost & Found</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/modal.css">
 </head>
 <body>
     <?php include 'includes/navbar.php'; ?>
@@ -59,6 +116,19 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
         <a href="javascript:history.back()" class="back-link">
             ← Back to Items
         </a>
+        
+        <!-- Messages -->
+        <?php if ($successMessage): ?>
+            <div style="background: #d1fae5; color: #065f46; padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem; border: 1px solid #a7f3d0;">
+                <?php echo htmlspecialchars($successMessage); ?>
+            </div>
+        <?php endif; ?>
+        
+        <?php if ($errorMessage): ?>
+            <div style="background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem; border: 1px solid #fecaca;">
+                <?php echo htmlspecialchars($errorMessage); ?>
+            </div>
+        <?php endif; ?>
 
         <div class="detail-card">
             <div class="detail-image">
@@ -125,17 +195,9 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
                             </a>
                         <?php else: ?>
                             <!-- Contact Button for Non-Owners -->
-                            <?php
-                            // Get the reporter's info
-                            $reporterStmt = $conn->prepare("SELECT full_name, email, student_id FROM users WHERE id = ?");
-                            $reporterStmt->bind_param("i", $item['user_id']);
-                            $reporterStmt->execute();
-                            $reporter = $reporterStmt->get_result()->fetch_assoc();
-                            ?>
-                            <a href="mailto:<?php echo htmlspecialchars($reporter['email']); ?>?subject=Regarding <?php echo urlencode($item['item_name']); ?>" 
-                               class="btn-pill btn-primary" style="padding: 0.8rem 2rem;">
+                            <button class="btn-pill btn-primary" style="padding: 0.8rem 2rem;" onclick="openContactModal()">
                                 Contact <?php echo $type == 'found' ? 'Finder' : 'Reporter'; ?>
-                            </a>
+                            </button>
                         <?php endif; ?>
                         
                         <!-- Share Button -->
@@ -147,6 +209,54 @@ $event_date = ($type == 'found') ? $item['date_found'] : $item['date_lost'];
             </div>
         </div>
     </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeContactModal()">&times;</button>
+            <div class="modal-header">
+                <h3 class="modal-title">Contact <?php echo $type == 'found' ? 'Finder' : 'Reporter'; ?></h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Send a message regarding <strong><?php echo htmlspecialchars($item['item_name']); ?></strong></p>
+            </div>
+            
+            <form action="" method="POST">
+                <input type="hidden" name="csrf_token" value="<?php echo generateCsrfToken(); ?>">
+                <input type="hidden" name="send_message" value="1">
+                
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-head);">Subject</label>
+                    <input type="text" name="subject" class="search-input" value="Regarding: <?php echo htmlspecialchars($item['item_name']); ?>" required style="width: 100%; border: 1px solid var(--glass-border); border-radius: 0.5rem; padding: 0.8rem;">
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-head);">Message</label>
+                    <textarea name="message" rows="5" required style="width: 100%; border: 1px solid var(--glass-border); border-radius: 0.5rem; padding: 0.8rem; font-family: inherit; resize: vertical;" placeholder="Hi, I saw your report..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn-pill btn-primary" style="width: 100%; justify-content: center;">Send Message</button>
+            </form>
+        </div>
+    </div>
+
     <?php include 'includes/footer.php'; ?>
+
+    <script>
+        function openContactModal() {
+            document.getElementById('contactModal').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeContactModal() {
+            document.getElementById('contactModal').classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('contactModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeContactModal();
+            }
+        });
+    </script>
 </body>
 </html>
